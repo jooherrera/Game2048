@@ -7,7 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/com.ibm.icu_74.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/jakarta.annotation-api_2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.core.commands_3.12.0.v20240214-1640.jar"/>
@@ -22,5 +21,8 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.text_3.14.0.v20240207-1054.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.ui.forms_3.13.200.v20240108-1539.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.ui.workbench_3.131.100.v20240221-2107.jar"/>
+	<classpathentry kind="lib" path="lib/org.hamcrest_2.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/org.hamcrest.core_2.2.0.v20230809-1000.jar"/>
+	<classpathentry kind="lib" path="lib/org.junit_4.13.2.v20230809-1000.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
