@@ -26,7 +26,7 @@ jobs:
         echo "::set-output name=classpath::$classpath"
 
     - name: Compile tests
-      run: javac -cp .:${{ steps.extract_classpath.outputs.classpath }} test/*.java
+      run: javac -cp .:${{ steps.extract_classpath.outputs.classpath }} $(find test -name '*.java')
 
     - name: Run JUnit Tests
       run: java -cp .:${{ steps.extract_classpath.outputs.classpath }} org.junit.runner.JUnitCore $(find test -name "*.class" | sed 's/.class//' | tr / .)
