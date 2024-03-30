@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Random;
+
 public class Cell {
 	private int value;
 	private boolean isCombined;
@@ -32,6 +34,7 @@ public class Cell {
 			return 0;
 
 		cell.clear();
+		this.isCombined = true;
 		return this.value;
 	}
 
@@ -48,6 +51,33 @@ public class Cell {
 		this.value = 0;
 	}
 
+	public boolean isEmpty() {
+		return this.value == 0;
+	}
+
+	public void generateRandomValue() {
+
+		if (!this.isEmpty()) {
+			throw new RuntimeException("Una celda con valor no puede generar otro valor");
+		}
+
+		Random random = new Random();
+
+		int randomNumber = random.nextInt(2); // Genera un número aleatorio entre 0 (incluido) y 2 (excluido)
+
+		int resultado = (randomNumber == 0) ? 2 : 4;
+
+		this.value = resultado;
+	}
+
+	public void resetCombined() {
+		this.isCombined = false;
+	}
+
+	public int getNumber() {
+		return this.value;
+	}
+
 	private boolean sum(int valueToSum) {
 
 		if (valueToSum == 0 || this.value == 0) {
@@ -59,12 +89,7 @@ public class Cell {
 			return false;
 
 		this.value += valueToSum;
-		this.isCombined = true;
+
 		return true;
 	}
-
-	public boolean isEmpty() {
-		return this.value == 0;
-	}
-
 }
