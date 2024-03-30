@@ -42,7 +42,7 @@ public class MainWindow {
 		frmProg.setBounds(100, 100, 450, 300);
 		frmProg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProg.getContentPane().setLayout(null);
-		
+
 		JLabel lblHolaMundo = new JLabel("Hola mundo!!");
 		lblHolaMundo.setBounds(46, 42, 89, 17);
 		frmProg.getContentPane().add(lblHolaMundo);

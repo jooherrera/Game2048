@@ -1,9 +1,11 @@
-package game;
+package game.store_test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import game.Score;
 
 public class ScoreTest {
 
