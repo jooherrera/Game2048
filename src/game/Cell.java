@@ -4,57 +4,54 @@ import java.util.Random;
 
 public class Cell {
 	private int value;
-	private boolean isCombined;
+	private boolean combined;
 
 	public static Cell create(int value) {
-		boolean isCombined = false;
-		return new Cell(value, isCombined);
+		boolean combined = false;
+		return new Cell(value, combined);
 	}
 
-	public Cell(int value, boolean isCombined) {
+	public Cell(int value, boolean combined) {
 
 		if (value != 2 && value != 4 && value != 0)
 			throw new IllegalArgumentException(
 					"Valor para celda inválido. Solo se permite los valores 2 y 4: " + value);
 
 		this.value = value;
-		this.isCombined = isCombined;
+		this.combined = combined;
 	}
 
 	public int combine(Cell cell) {
 
-		if (this.isCombined)
+		if (this.isCombined() || cell.isCombined())
 			return 0;
 
+		if(this.value == 0 || cell.getNumber() == 0) {
+			this.value += cell.transferValue();
+			return 0;
+		}
+		
+		if(this.value != cell.getNumber())
+			return 0;
+		
+		
 		int valueToAdd = cell.transferValue();
-
-		boolean combined = this.sum(valueToAdd);
-
-		if (!combined)
-			return 0;
-
-		cell.clear();
-		this.isCombined = true;
-		return this.value;
+		this.value += valueToAdd;
+		
+		this.combined = true;
+		return valueToAdd * 2;
 	}
 
-	public int transferValue() {
-		if (this.isCombined)
-			return 0;
-		return this.value;
-	}
-
-	public void clear() {
-		if (this.isCombined)
-			return;
-
+	private int transferValue() {
+		int value = this.value;
 		this.value = 0;
+		return value;
 	}
 
 	public boolean isEmpty() {
 		return this.value == 0;
 	}
-
+	
 	public void generateRandomValue() {
 
 		if (!this.isEmpty()) {
@@ -71,25 +68,16 @@ public class Cell {
 	}
 
 	public void resetCombined() {
-		this.isCombined = false;
+		this.combined = false;
 	}
 
+	private boolean isCombined() {
+		return this.combined;
+	}
+	
 	public int getNumber() {
 		return this.value;
 	}
 
-	private boolean sum(int valueToSum) {
 
-		if (valueToSum == 0 || this.value == 0) {
-			this.value += valueToSum;
-			return false;
-		}
-
-		if (valueToSum != this.value)
-			return false;
-
-		this.value += valueToSum;
-
-		return true;
-	}
 }
