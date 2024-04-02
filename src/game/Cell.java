@@ -26,18 +26,17 @@ public class Cell {
 		if (this.isCombined() || cell.isCombined())
 			return 0;
 
-		if(this.value == 0 || cell.getNumber() == 0) {
+		if (this.value == 0 || cell.getNumber() == 0) {
 			this.value += cell.transferValue();
 			return 0;
 		}
-		
-		if(this.value != cell.getNumber())
+
+		if (this.value != cell.getNumber())
 			return 0;
-		
-		
+
 		int valueToAdd = cell.transferValue();
 		this.value += valueToAdd;
-		
+
 		this.combined = true;
 		return valueToAdd * 2;
 	}
@@ -51,7 +50,7 @@ public class Cell {
 	public boolean isEmpty() {
 		return this.value == 0;
 	}
-	
+
 	public void generateRandomValue() {
 
 		if (!this.isEmpty()) {
@@ -74,10 +73,9 @@ public class Cell {
 	private boolean isCombined() {
 		return this.combined;
 	}
-	
+
 	public int getNumber() {
 		return this.value;
 	}
-
 
 }
