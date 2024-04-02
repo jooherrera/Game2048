@@ -4,47 +4,51 @@ import java.util.Random;
 
 public class Cell {
 	private int value;
-	private boolean combined;
+	private boolean isCombined;
 
 	public static Cell create(int value) {
-		boolean combined = false;
-		return new Cell(value, combined);
+		boolean isCombined = false;
+		return new Cell(value, isCombined);
 	}
 
-	public Cell(int value, boolean combined) {
+	public Cell(int value, boolean isCombined) {
 
 		if (value != 2 && value != 4 && value != 0)
 			throw new IllegalArgumentException(
 					"Valor para celda inválido. Solo se permite los valores 2 y 4: " + value);
 
 		this.value = value;
-		this.combined = combined;
+		this.isCombined = isCombined;
 	}
 
 	public int combine(Cell cell) {
 
-		if (this.isCombined() || cell.isCombined())
-			return 0;
-
-		if (this.value == 0 || cell.getNumber() == 0) {
-			this.value += cell.transferValue();
-			return 0;
-		}
-
-		if (this.value != cell.getNumber())
+		if (this.isCombined)
 			return 0;
 
 		int valueToAdd = cell.transferValue();
-		this.value += valueToAdd;
 
-		this.combined = true;
-		return valueToAdd * 2;
+		boolean combined = this.sum(valueToAdd);
+
+		if (!combined)
+			return 0;
+
+		cell.clear();
+		this.isCombined = true;
+		return this.value;
 	}
 
-	private int transferValue() {
-		int value = this.value;
+	public int transferValue() {
+		if (this.isCombined)
+			return 0;
+		return this.value;
+	}
+
+	public void clear() {
+		if (this.isCombined)
+			return;
+
 		this.value = 0;
-		return value;
 	}
 
 	public boolean isEmpty() {
@@ -67,15 +71,25 @@ public class Cell {
 	}
 
 	public void resetCombined() {
-		this.combined = false;
-	}
-
-	private boolean isCombined() {
-		return this.combined;
+		this.isCombined = false;
 	}
 
 	public int getNumber() {
 		return this.value;
 	}
 
+	private boolean sum(int valueToSum) {
+
+		if (valueToSum == 0 || this.value == 0) {
+			this.value += valueToSum;
+			return false;
+		}
+
+		if (valueToSum != this.value)
+			return false;
+
+		this.value += valueToSum;
+
+		return true;
+	}
 }
