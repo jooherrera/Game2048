@@ -21,7 +21,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-//import org.eclipse.wb.swing.FocusTraversalOnArray;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 public class MainWindow {
 
@@ -74,6 +75,7 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frmProg = new JFrame();
+		frmProg.setAutoRequestFocus(false);
 		frmProg.getContentPane().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -282,7 +284,7 @@ public class MainWindow {
 		button.setActionCommand("Nueva Partida");
 		button.setBounds(660, 10, 214, 37);
 		frmProg.getContentPane().add(button);
-//		frmProg.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{frmProg.getContentPane()}));
+		frmProg.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{frmProg.getContentPane()}));
 		
 	}
 }
