@@ -21,6 +21,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 public class MainWindow {
 
@@ -73,11 +74,10 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frmProg = new JFrame();
-		frmProg.addKeyListener(new KeyAdapter() {
+		frmProg.getContentPane().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				 System.out.println("sasasa");
-				if(e.getKeyCode() == 39)
+					if(e.getKeyCode() == 39)
 				     System.out.println("flecha derecha");
 				    
 				    if(e.getKeyCode() == 40)
@@ -90,6 +90,7 @@ public class MainWindow {
 				     System.out.println("flecha up");
 			}
 		});
+
 		frmProg.getContentPane().setBackground(new Color(128, 128, 0));
 		frmProg.setTitle("prog");
 		frmProg.setResizable(false);
@@ -281,6 +282,7 @@ public class MainWindow {
 		button.setActionCommand("Nueva Partida");
 		button.setBounds(660, 10, 214, 37);
 		frmProg.getContentPane().add(button);
+		frmProg.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{frmProg.getContentPane()}));
 		
 	}
 }
