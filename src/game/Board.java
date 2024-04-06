@@ -3,26 +3,18 @@ package game;
 import java.util.ArrayList;
 
 public class Board {
-	Cell[][] board;
+	ArrayList<ArrayList<Cell>> board;
 	ArrayList<Cell> emptyCellList;
 	ArrayList<Cell> combinedCellList;
 	
 	public Board() {
-		this.board = new Cell[4][4];
-		
-		for (int i = 0; i < this.board.length; i++) {
-			for (int j = 0; j < this.board[i].length; j++) {
-				this.board[i][j] = Cell.create(0);
-			}
-		}
-		
+		this.board = createAllZeroMatrix(4);
 		emptyCellList = new ArrayList<Cell>();
 		combinedCellList = new ArrayList<Cell>();
 	}
 	
-	public Board(Cell[][] b) {
+	public Board(ArrayList<ArrayList<Cell>> b) {
 		this.board = b;
-		
 		emptyCellList = new ArrayList<Cell>();
 		combinedCellList = new ArrayList<Cell>();
 	}
@@ -30,7 +22,44 @@ public class Board {
 	public int combineToRight(){
 		int acum = 0;
 		
-//		
+		for (int i = 0; i < board.size(); i++) {
+			
+			int position = board.get(i).size()-1;
+			for (int j = board.get(i).size()-1; j >= 0; j--) {
+				if (j == board.get(i).size()-1)
+					continue;
+				
+				Cell cell = board.get(i).get(j);
+				
+				if (cell.isEmpty())
+					continue;
+				
+				Cell cellPointer = board.get(i).get(position);
+				
+				if (cellPointer.isEmpty()) {
+					cellPointer.combine(cell);
+					continue;
+				}
+				
+				if (cell.getNumber() != cellPointer.getNumber()) {
+					
+					if (position == j + 1)
+						continue;
+					
+					position--;
+					Cell cellToCombine = board.get(i).get(position);
+					cellToCombine.combine(cell);
+					continue;
+				}
+				
+				acum += cellPointer.combine(cell);
+				combinedCellList.add(cellPointer);
+				position--;
+				continue;
+			}
+		}
+		
+		resetCombinedCellList();
 		
 		return acum;
 	}
@@ -38,53 +67,146 @@ public class Board {
 	public int combineToLeft(){
 		int acum = 0;
 		
-//		imprimirBoard();
-		for (int i = 0; i < this.board.length; i++) {	//recorremos cada fila
+		for (int i = 0; i < board.size(); i++) {
 			
-			int k = 0;
-			
-			for (int j = 0; j < board[i].length; j++) { //recorremos la fila de izquierda a derecha
-				if (this.board[i][j].isEmpty()) {
-					k++;						//contamos las cells vacias
+			int position = 0;
+			for (int j = 0; j < board.get(i).size(); j++) {
+				if (j == 0)
+					continue;
+				
+				Cell cell = board.get(i).get(j);
+				
+				if (cell.isEmpty())
+					continue;
+				
+				Cell cellPointer = board.get(i).get(position);
+				
+				if (cellPointer.isEmpty()) {
+					cellPointer.combine(cell);
+					continue;
 				}
-			}
-			
-			if (k == 4 || k == 0) {
-				k = 1;
-			}
-			for (int c = 0; c <= k; c++) {
-				System.out.println("c: "+c);
-				for (int j = 0; j < board[i].length; j++) {	//recorremos la fila de derecha a izquierda
+				
+				if (cell.getNumber() != cellPointer.getNumber()) {
 					
-					int combValue = 0;
+					if (position == j - 1)
+						continue;
 					
-					combValue = this.board[i][j].combine(this.board[i][j+1]);
-					acum += combValue;
-					
-					if (combValue != 0) {
-						combinedCellList.add(this.board[i][j]);
-						k++;
-					}else if (!sonDistintosValoresMayorQueCero(this.board[i][j].getNumber(), this.board[i][j+1].getNumber())){
-//						this.board[i][j+1].clear();
-					}					
-//					imprimirBoard();
+					position++;
+					Cell cellToCombine = board.get(i).get(position);
+					cellToCombine.combine(cell);
+					continue;
 				}
+				
+				acum += cellPointer.combine(cell);
+				combinedCellList.add(cellPointer);
+				position++;
+				continue;
 			}
 		}
+		
+		resetCombinedCellList();
 		
 		return acum;
 	}
 	
 	public int combineToUp(){
-		return 0;
+		int acum = 0;
+		
+		for (int c = 0; c < board.get(0).size(); c++) {
+			
+			int position = 0;
+			for (int f = 0; f < board.size(); f++) {
+				if (f == 0)
+					continue;
+				
+				Cell cell = board.get(f).get(c);
+				
+				if (cell.isEmpty())
+					continue;
+				
+				Cell cellPointer = board.get(position).get(c);
+				
+				if (cellPointer.isEmpty()) {
+					cellPointer.combine(cell);
+					continue;
+				}
+				
+				if (cell.getNumber() != cellPointer.getNumber()) {
+					
+					if (position == f - 1)
+						continue;
+					
+					position++;
+					Cell cellToCombine = board.get(position).get(c);
+					cellToCombine.combine(cell);
+					continue;
+				}
+				
+				acum += cellPointer.combine(cell);
+				combinedCellList.add(cellPointer);
+				position++;
+				continue;
+				
+			}
+		}
+		
+		resetCombinedCellList();
+		
+		return acum;
 	}
 	
 	public int combineToDown(){
-		return 0;
+		int acum = 0;
+		
+		for (int c = 0; c < board.get(0).size(); c++) {
+			
+			int position = board.size()-1;
+			for (int f = board.size()-1; f >= 0; f--) {
+				if (f == board.size()-1)
+					continue;
+				
+				Cell cell = board.get(f).get(c);
+				
+				if (cell.isEmpty())
+					continue;
+				
+				Cell cellPointer = board.get(position).get(c);
+				
+				if (cellPointer.isEmpty()) {
+					cellPointer.combine(cell);
+					continue;
+				}
+				
+				if (cell.getNumber() != cellPointer.getNumber()) {
+					
+					if (position == f + 1)
+						continue;
+					
+					position--;
+					Cell cellToCombine = board.get(position).get(c);
+					cellToCombine.combine(cell);
+					continue;
+				}
+				
+				acum += cellPointer.combine(cell);
+				combinedCellList.add(cellPointer);
+				position--;
+				continue;
+				
+			}
+		}
+		
+		resetCombinedCellList();
+		
+		return acum;
 	}
 	
 	public void generateRandomPosition(){
 		
+	}
+	
+	public ArrayList<ArrayList<Cell>> getBoardData(){
+		return this.board;
 	}
 	
 	public boolean isBoardFull(){
@@ -92,35 +214,38 @@ public class Board {
 	}
 	
 	private void resetCombinedCellList() {
-		
-	}
-	
-	private void imprimirBoard() {
-		for (int i = 0; i < this.board.length; i++) {
-			System.out.println("Fila: "+i+"\n");
-			for (int j = 0; j < this.board[i].length; j++) {
-				System.out.println("Cell: ["+i+","+j+"] value: "+this.board[i][j].getNumber()+" combinado: "+isInCombineList(this.board[i][j]));
-			}
-			System.out.println("");
+		for (Cell cell : this.combinedCellList) {
+			cell.resetCombined();
 		}
-	}
-	
-	private boolean sonDistintosValoresMayorQueCero(int a, int b) {
-		return (a > 0 && b > 0) &&  a != b;
-	}
-	
-	private boolean algunoEsCero(int a, int b) {
-		return a == 0 || b == 0;
-	}
-	
-	private boolean algunoFueCombinado(Cell c1, Cell c2) {
-		int a = c1.getNumber();
-		int b = c1.getNumber();
 		
-		return isInCombineList(c1) || isInCombineList(c2);
+		combinedCellList.clear();
+	}
+	
+	private void printBoard() {
+		for (int i = 0; i < this.board.size(); i++) {
+			for (int j = 0; j < this.board.get(i).size(); j++) {
+				System.out.print("["+this.board.get(i).get(j).getNumber()+"] ");
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 	
 	private boolean isInCombineList(Cell c) {
 		return combinedCellList.contains(c);
+	}
+	
+	private ArrayList<ArrayList<Cell>> createAllZeroMatrix(int size) {
+		ArrayList<ArrayList<Cell>> cells = new ArrayList<ArrayList<Cell>>();
+		
+		for (int i = 0; i < size; i++) {
+			ArrayList<Cell> cellRow = new ArrayList<Cell>();
+			cells.add(cellRow);
+			for (int j = 0; j < size; j++) {
+				Cell cell = Cell.create(0);
+				cells.get(i).add(cell);
+			}
+		}
+		return cells;
 	}
 }
