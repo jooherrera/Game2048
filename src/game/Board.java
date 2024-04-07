@@ -1,40 +1,43 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Board {
 	ArrayList<ArrayList<Cell>> board;
 	ArrayList<Cell> emptyCellList;
 	ArrayList<Cell> combinedCellList;
+	Score score;
 	
 	public Board() {
 		this.board = createAllZeroMatrix(4);
-		emptyCellList = new ArrayList<Cell>();
-		combinedCellList = new ArrayList<Cell>();
+		this.emptyCellList = new ArrayList<Cell>();
+		this.combinedCellList = new ArrayList<Cell>();
+		this.score = new Score();
 	}
 	
 	public Board(ArrayList<ArrayList<Cell>> b) {
 		this.board = b;
-		emptyCellList = new ArrayList<Cell>();
-		combinedCellList = new ArrayList<Cell>();
+		this.emptyCellList = new ArrayList<Cell>();
+		this.combinedCellList = new ArrayList<Cell>();
+		this.score = new Score();
 	}
 	
 	public int combineToRight(){
-		int acum = 0;
+		int sumaTotal = 0;
 		
-		for (int i = 0; i < board.size(); i++) {
+		for (int f = 0; f < board.size(); f++) {
 			
-			int position = board.get(i).size()-1;
-			for (int j = board.get(i).size()-1; j >= 0; j--) {
-				if (j == board.get(i).size()-1)
+			int position = board.get(f).size()-1;
+			for (int c = board.get(f).size()-1; c >= 0; c--) {
+				boolean isFirstElement = c == board.get(f).size()-1;
+				
+				Cell cell = board.get(f).get(c);
+				
+				if (isFirstElement || cell.isEmpty())
 					continue;
 				
-				Cell cell = board.get(i).get(j);
-				
-				if (cell.isEmpty())
-					continue;
-				
-				Cell cellPointer = board.get(i).get(position);
+				Cell cellPointer = board.get(f).get(position);
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
@@ -42,17 +45,17 @@ public class Board {
 				}
 				
 				if (cell.getNumber() != cellPointer.getNumber()) {
-					
-					if (position == j + 1)
+					position--;
+					if (position == c)
 						continue;
 					
-					position--;
-					Cell cellToCombine = board.get(i).get(position);
+					Cell cellToCombine = board.get(f).get(position);
 					cellToCombine.combine(cell);
 					continue;
 				}
 				
-				acum += cellPointer.combine(cell);
+				sumaTotal += cellPointer.combine(cell);
+				score.add(sumaTotal);
 				combinedCellList.add(cellPointer);
 				position--;
 				continue;
@@ -60,26 +63,26 @@ public class Board {
 		}
 		
 		resetCombinedCellList();
-		
-		return acum;
+		findEmptyCells();
+
+		return sumaTotal;
 	}
 	
 	public int combineToLeft(){
-		int acum = 0;
+		int sumaTotal = 0;
 		
-		for (int i = 0; i < board.size(); i++) {
+		for (int f = 0; f < board.size(); f++) {
 			
 			int position = 0;
-			for (int j = 0; j < board.get(i).size(); j++) {
-				if (j == 0)
+			for (int c = 0; c < board.get(f).size(); c++) {
+				boolean isFirstElement = c == 0;
+				
+				Cell cell = board.get(f).get(c);
+				
+				if (isFirstElement || cell.isEmpty())
 					continue;
 				
-				Cell cell = board.get(i).get(j);
-				
-				if (cell.isEmpty())
-					continue;
-				
-				Cell cellPointer = board.get(i).get(position);
+				Cell cellPointer = board.get(f).get(position);
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
@@ -87,17 +90,16 @@ public class Board {
 				}
 				
 				if (cell.getNumber() != cellPointer.getNumber()) {
-					
-					if (position == j - 1)
+					position++;
+					if (position == c)
 						continue;
 					
-					position++;
-					Cell cellToCombine = board.get(i).get(position);
+					Cell cellToCombine = board.get(f).get(position);
 					cellToCombine.combine(cell);
 					continue;
 				}
 				
-				acum += cellPointer.combine(cell);
+				sumaTotal += cellPointer.combine(cell);
 				combinedCellList.add(cellPointer);
 				position++;
 				continue;
@@ -105,23 +107,23 @@ public class Board {
 		}
 		
 		resetCombinedCellList();
+		findEmptyCells();
 		
-		return acum;
+		return sumaTotal;
 	}
 	
 	public int combineToUp(){
-		int acum = 0;
+		int sumaTotal = 0;
 		
 		for (int c = 0; c < board.get(0).size(); c++) {
 			
 			int position = 0;
 			for (int f = 0; f < board.size(); f++) {
-				if (f == 0)
-					continue;
+				boolean isFirstElement = f == 0;
 				
 				Cell cell = board.get(f).get(c);
 				
-				if (cell.isEmpty())
+				if (isFirstElement || cell.isEmpty())
 					continue;
 				
 				Cell cellPointer = board.get(position).get(c);
@@ -132,42 +134,40 @@ public class Board {
 				}
 				
 				if (cell.getNumber() != cellPointer.getNumber()) {
-					
-					if (position == f - 1)
+					position++;
+					if (position == f)
 						continue;
 					
-					position++;
 					Cell cellToCombine = board.get(position).get(c);
 					cellToCombine.combine(cell);
 					continue;
 				}
 				
-				acum += cellPointer.combine(cell);
+				sumaTotal += cellPointer.combine(cell);
 				combinedCellList.add(cellPointer);
 				position++;
 				continue;
-				
 			}
 		}
 		
 		resetCombinedCellList();
+		findEmptyCells();
 		
-		return acum;
+		return sumaTotal;
 	}
 	
 	public int combineToDown(){
-		int acum = 0;
+		int sumaTotal = 0;
 		
 		for (int c = 0; c < board.get(0).size(); c++) {
 			
 			int position = board.size()-1;
 			for (int f = board.size()-1; f >= 0; f--) {
-				if (f == board.size()-1)
-					continue;
+				boolean isFirstElement = f == board.size()-1;
 				
 				Cell cell = board.get(f).get(c);
 				
-				if (cell.isEmpty())
+				if (isFirstElement || cell.isEmpty())
 					continue;
 				
 				Cell cellPointer = board.get(position).get(c);
@@ -178,31 +178,38 @@ public class Board {
 				}
 				
 				if (cell.getNumber() != cellPointer.getNumber()) {
-					
-					if (position == f + 1)
+					position--;
+					if (position == f)
 						continue;
 					
-					position--;
 					Cell cellToCombine = board.get(position).get(c);
 					cellToCombine.combine(cell);
 					continue;
 				}
 				
-				acum += cellPointer.combine(cell);
+				sumaTotal += cellPointer.combine(cell);
 				combinedCellList.add(cellPointer);
 				position--;
 				continue;
-				
 			}
 		}
 		
 		resetCombinedCellList();
+		findEmptyCells();
 		
-		return acum;
+		return sumaTotal;
 	}
 	
 	public void generateRandomPosition(){
-		
+		Random rand = new Random();
+
+		int randomIndex = rand.nextInt(this.emptyCellList.size());
+
+		Cell randomCell = this.emptyCellList.get(randomIndex);
+
+		randomCell.generateRandomValue();
+
+		this.emptyCellList.remove(randomIndex);
 	}
 	
 	public ArrayList<ArrayList<Cell>> getBoardData(){
@@ -221,6 +228,14 @@ public class Board {
 		combinedCellList.clear();
 	}
 	
+	private void findEmptyCells() {
+		for (ArrayList<Cell> row : this.board)
+			for (Cell cell : row) {
+				if (cell.isEmpty())
+					this.emptyCellList.add(cell);
+			}
+	}
+	
 	private void printBoard() {
 		for (int i = 0; i < this.board.size(); i++) {
 			for (int j = 0; j < this.board.get(i).size(); j++) {
@@ -229,10 +244,6 @@ public class Board {
 			System.out.println();
 		}
 		System.out.println();
-	}
-	
-	private boolean isInCombineList(Cell c) {
-		return combinedCellList.contains(c);
 	}
 	
 	private ArrayList<ArrayList<Cell>> createAllZeroMatrix(int size) {
