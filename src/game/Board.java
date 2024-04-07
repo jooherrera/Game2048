@@ -23,8 +23,7 @@ public class Board {
 		this.score = new Score();
 	}
 	
-	public int combineToRight(){
-		int sumaTotal = 0;
+	public void combineToRight(){
 		
 		for (int f = 0; f < board.size(); f++) {
 			
@@ -54,8 +53,8 @@ public class Board {
 					continue;
 				}
 				
-				sumaTotal += cellPointer.combine(cell);
-				score.add(sumaTotal);
+				int points = cellPointer.combine(cell);
+				score.add(points);
 				combinedCellList.add(cellPointer);
 				position--;
 				continue;
@@ -64,12 +63,12 @@ public class Board {
 		
 		resetCombinedCellList();
 		findEmptyCells();
+		generateRandomPosition();
 
-		return sumaTotal;
+//		return sumaTotal;
 	}
 	
-	public int combineToLeft(){
-		int sumaTotal = 0;
+	public void combineToLeft(){
 		
 		for (int f = 0; f < board.size(); f++) {
 			
@@ -99,7 +98,8 @@ public class Board {
 					continue;
 				}
 				
-				sumaTotal += cellPointer.combine(cell);
+				int points = cellPointer.combine(cell);
+				score.add(points);
 				combinedCellList.add(cellPointer);
 				position++;
 				continue;
@@ -108,12 +108,10 @@ public class Board {
 		
 		resetCombinedCellList();
 		findEmptyCells();
-		
-		return sumaTotal;
+		generateRandomPosition();
 	}
 	
-	public int combineToUp(){
-		int sumaTotal = 0;
+	public void combineToUp(){
 		
 		for (int c = 0; c < board.get(0).size(); c++) {
 			
@@ -143,7 +141,8 @@ public class Board {
 					continue;
 				}
 				
-				sumaTotal += cellPointer.combine(cell);
+				int points = cellPointer.combine(cell);
+				score.add(points);
 				combinedCellList.add(cellPointer);
 				position++;
 				continue;
@@ -152,12 +151,10 @@ public class Board {
 		
 		resetCombinedCellList();
 		findEmptyCells();
-		
-		return sumaTotal;
+		generateRandomPosition();
 	}
 	
-	public int combineToDown(){
-		int sumaTotal = 0;
+	public void combineToDown(){
 		
 		for (int c = 0; c < board.get(0).size(); c++) {
 			
@@ -187,7 +184,8 @@ public class Board {
 					continue;
 				}
 				
-				sumaTotal += cellPointer.combine(cell);
+				int points = cellPointer.combine(cell);
+				score.add(points);
 				combinedCellList.add(cellPointer);
 				position--;
 				continue;
@@ -196,8 +194,7 @@ public class Board {
 		
 		resetCombinedCellList();
 		findEmptyCells();
-		
-		return sumaTotal;
+		generateRandomPosition();
 	}
 	
 	public void generateRandomPosition(){
@@ -258,5 +255,9 @@ public class Board {
 			}
 		}
 		return cells;
+	}
+	
+	public int getScore() {
+		return this.score.getValue();
 	}
 }
