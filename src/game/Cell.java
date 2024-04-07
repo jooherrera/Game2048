@@ -13,9 +13,9 @@ public class Cell {
 
 	public Cell(int value, boolean combined) {
 
-		if (value != 2 && value != 4 && value != 0)
-			throw new IllegalArgumentException(
-					"Valor para celda inválido. Solo se permite los valores 2 y 4: " + value);
+//		if (value != 2 && value != 4 && value != 0)
+//			throw new IllegalArgumentException(
+//					"Valor para celda inválido. Solo se permite los valores 2 y 4: " + value);
 
 		this.value = value;
 		this.combined = combined;
