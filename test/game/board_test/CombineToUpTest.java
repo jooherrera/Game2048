@@ -12,14 +12,16 @@ public class CombineToUpTest {
 	@Test
 	public void combineUpTodosCerosSumaTest() {
 		Board b = new Board();
-		assertEquals(0, b.combineToUp());
+		b.combineToUp();
+		assertEquals(0, b.getScore());
 	}
 	
 	@Test
 	public void combineUpValorYCerosSumaTest() {
 		Board b = new Board();
 		b.getBoardData().get(3).set(0, new Cell(2,false));
-		assertEquals(0, b.combineToUp());
+		b.combineToUp();
+		assertEquals(0, b.getScore());
 	}
 	
 	@Test
@@ -27,7 +29,8 @@ public class CombineToUpTest {
 		Board b = new Board();
 		b.getBoardData().get(3).set(0, new Cell(2,false));
 		b.getBoardData().get(2).set(0, new Cell(2,false));
-		assertEquals(4, b.combineToUp());
+		b.combineToUp();
+		assertEquals(4,b.getScore());
 	}
 	
 	@Test
@@ -37,7 +40,8 @@ public class CombineToUpTest {
 		b.getBoardData().get(2).set(0, new Cell(2,false));
 		b.getBoardData().get(1).set(0, new Cell(2,false));
 		b.getBoardData().get(0).set(0, new Cell(2,false));
-		assertEquals(8, b.combineToUp());
+		b.combineToUp();
+		assertEquals(8, b.getScore());
 	}
 	
 	@Test
@@ -45,7 +49,8 @@ public class CombineToUpTest {
 		Board b = new Board();
 		b.getBoardData().get(3).set(0, new Cell(2,false));
 		b.getBoardData().get(2).set(0, new Cell(4,false));
-		assertEquals(0, b.combineToUp());
+		b.combineToUp();
+		assertEquals(0, b.getScore());
 	}
 	
 	@Test
@@ -54,7 +59,8 @@ public class CombineToUpTest {
 		b.getBoardData().get(3).set(0, new Cell(2,false));
 		b.getBoardData().get(2).set(0, new Cell(2,false));
 		b.getBoardData().get(1).set(0, new Cell(4,false));
-		assertEquals(4, b.combineToUp());
+		b.combineToUp();
+		assertEquals(4,b.getScore());
 	}
 	
 	@Test
@@ -63,9 +69,7 @@ public class CombineToUpTest {
 		b.getBoardData().get(3).set(0, new Cell(2,false));
 		
 		b.combineToUp();
-		assertEquals(0, b.getBoardData().get(3).get(0).getNumber());
-		assertEquals(0, b.getBoardData().get(2).get(0).getNumber());
-		assertEquals(0, b.getBoardData().get(1).get(0).getNumber());
+
 		assertEquals(2, b.getBoardData().get(0).get(0).getNumber());
 	}
 	
@@ -76,9 +80,7 @@ public class CombineToUpTest {
 		b.getBoardData().get(2).set(0, new Cell(2,false));
 		
 		b.combineToUp();
-		assertEquals(0, b.getBoardData().get(3).get(0).getNumber());
-		assertEquals(0, b.getBoardData().get(2).get(0).getNumber());
-		assertEquals(0, b.getBoardData().get(1).get(0).getNumber());
+
 		assertEquals(4, b.getBoardData().get(0).get(0).getNumber());
 	}
 	
@@ -91,8 +93,7 @@ public class CombineToUpTest {
 		b.getBoardData().get(0).set(0, new Cell(2,false));
 		
 		b.combineToUp();
-		assertEquals(0, b.getBoardData().get(3).get(0).getNumber());
-		assertEquals(0, b.getBoardData().get(2).get(0).getNumber());
+
 		assertEquals(4, b.getBoardData().get(1).get(0).getNumber());
 		assertEquals(4, b.getBoardData().get(0).get(0).getNumber());
 	}
@@ -104,8 +105,7 @@ public class CombineToUpTest {
 		b.getBoardData().get(2).set(0, new Cell(4,false));
 		
 		b.combineToUp();
-		assertEquals(0, b.getBoardData().get(3).get(0).getNumber());
-		assertEquals(0, b.getBoardData().get(2).get(0).getNumber());
+
 		assertEquals(2, b.getBoardData().get(1).get(0).getNumber());
 		assertEquals(4, b.getBoardData().get(0).get(0).getNumber());
 	}
@@ -118,8 +118,7 @@ public class CombineToUpTest {
 		b.getBoardData().get(1).set(0, new Cell(4,false));
 		
 		b.combineToUp();
-		assertEquals(0, b.getBoardData().get(3).get(0).getNumber());
-		assertEquals(0, b.getBoardData().get(2).get(0).getNumber());
+
 		assertEquals(4, b.getBoardData().get(1).get(0).getNumber());
 		assertEquals(4, b.getBoardData().get(0).get(0).getNumber());
 	}
