@@ -64,8 +64,6 @@ public class Board {
 		resetCombinedCellList();
 		findEmptyCells();
 		generateRandomPosition();
-
-//		return sumaTotal;
 	}
 	
 	public void combineToLeft(){
@@ -209,12 +207,58 @@ public class Board {
 		this.emptyCellList.remove(randomIndex);
 	}
 	
-	public ArrayList<ArrayList<Cell>> getBoardData(){
-		return this.board;
+	public ArrayList<ArrayList<Integer>> getBoardData(){
+		ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+		
+		for (int i = 0; i < this.board.size(); i++) {
+			ArrayList<Integer> newRow = new ArrayList<Integer>();
+			ret.add(newRow);
+			for (int j = 0; j < this.board.size(); j++) {
+				int cellValue = this.getRow(i).get(j).getNumber();
+				ret.get(i).add(cellValue);
+			}
+		}
+		
+		return ret;
 	}
 	
 	public boolean isBoardFull(){
-		return false;
+		findEmptyCells();
+		return this.emptyCellList.isEmpty() && todosDistintosEnFila() && todosDistintosEnColumna();	//si no hay vacios y son todos distintos, no hay mas movimientos
+	}
+	
+	private boolean todosDistintosEnFila() {
+		boolean ret = true;
+		
+		for (int f = 0; f < board.size(); f++) {
+			
+			boolean distintos = true;
+			
+			for (int c = 0; c < board.get(f).size()-1; c++) {
+				distintos = distintos && board.get(f).get(c).getNumber() != board.get(f).get(c+1).getNumber();
+			}
+			
+			ret = ret && distintos;
+		}
+		
+		return ret;
+	}
+	
+	private boolean todosDistintosEnColumna() {
+		boolean ret = true;
+		
+		for (int c = 0; c < board.get(0).size(); c++) {
+			
+			boolean distintos = true;
+			
+			for (int f = 0; f < board.size()-1; f++) {
+				distintos = distintos && board.get(f).get(c).getNumber() != board.get(f+1).get(c).getNumber();
+			}
+			
+			ret = ret && distintos;
+		}
+		
+		return ret;
 	}
 	
 	private void resetCombinedCellList() {
@@ -233,15 +277,15 @@ public class Board {
 			}
 	}
 	
-	private void printBoard() {
-		for (int i = 0; i < this.board.size(); i++) {
-			for (int j = 0; j < this.board.get(i).size(); j++) {
-				System.out.print("["+this.board.get(i).get(j).getNumber()+"] ");
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
+//	private void printBoard() {
+//		for (int i = 0; i < this.board.size(); i++) {
+//			for (int j = 0; j < this.board.get(i).size(); j++) {
+//				System.out.print("["+this.board.get(i).get(j).getNumber()+"] ");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
+//	}
 	
 	private ArrayList<ArrayList<Cell>> createAllZeroMatrix(int size) {
 		ArrayList<ArrayList<Cell>> cells = new ArrayList<ArrayList<Cell>>();
@@ -255,6 +299,10 @@ public class Board {
 			}
 		}
 		return cells;
+	}
+	
+	public  ArrayList<Cell> getRow(int row) {
+		return this.board.get(row);
 	}
 	
 	public int getScore() {
