@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Board {
@@ -148,7 +149,8 @@ public class Board {
 		}
 		
 		resetCombinedCellList();
-		findEmptyCells();
+		findEmptyCells();		
+		
 		generateRandomPosition();
 	}
 	
@@ -196,6 +198,11 @@ public class Board {
 	}
 	
 	public void generateRandomPosition(){
+		if(isBoardFull()) {
+			System.out.println("Fin del juego");
+			return;
+		}
+		
 		Random rand = new Random();
 
 		int randomIndex = rand.nextInt(this.emptyCellList.size());
@@ -207,8 +214,8 @@ public class Board {
 		this.emptyCellList.remove(randomIndex);
 	}
 	
-	public ArrayList<ArrayList<Integer>> getBoardData(){
-		ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+	public List<List<Integer>> getBoardData(){
+		List<List<Integer>> ret = new ArrayList<>();
 		
 		for (int i = 0; i < this.board.size(); i++) {
 			ArrayList<Integer> newRow = new ArrayList<Integer>();
@@ -223,8 +230,7 @@ public class Board {
 	}
 	
 	public boolean isBoardFull(){
-		findEmptyCells();
-		return this.emptyCellList.isEmpty() && todosDistintosEnFila() && todosDistintosEnColumna();	//si no hay vacios y son todos distintos, no hay mas movimientos
+		return this.emptyCellList.isEmpty() ;// && todosDistintosEnFila() && todosDistintosEnColumna();	//si no hay vacios y son todos distintos, no hay mas movimientos	//si no hay vacios y son todos distintos, no hay mas movimientos
 	}
 	
 	private boolean todosDistintosEnFila() {
@@ -270,6 +276,8 @@ public class Board {
 	}
 	
 	private void findEmptyCells() {
+		this.emptyCellList.clear();
+		
 		for (ArrayList<Cell> row : this.board)
 			for (Cell cell : row) {
 				if (cell.isEmpty())
