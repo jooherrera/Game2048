@@ -5,7 +5,13 @@ import java.util.List;
 public class Game2048 implements Game {
 	
 	Board board = new Board();
-
+	
+	public Game2048() {
+//		board.getRow(0).set(0, new Cell(2,false));
+//		board.getRow(0).set(1, new Cell(2,false));
+	}
+	
+	
 	@Override
 	public void moveToRight() {
 		board.combineToRight();
@@ -34,8 +40,7 @@ public class Game2048 implements Game {
 
 	@Override
 	public List<List<Integer>> getBoard() {
-		// TODO Auto-generated method stub
-		return null;
+		return board.getBoardData();
 	}
 
 	@Override
