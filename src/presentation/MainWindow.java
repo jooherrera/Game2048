@@ -117,6 +117,10 @@ public class MainWindow {
 					System.out.println("flecha up");
 
 				}
+				
+				if(game.hasPlayerLose()) {
+					System.out.println("Juego finalizado");
+				}
 			}
 		});
 

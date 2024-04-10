@@ -9,14 +9,21 @@ public class Board {
 	ArrayList<Cell> emptyCellList;
 	ArrayList<Cell> combinedCellList;
 	Score score;
+	boolean change_position;
+	boolean starting_board ;
+	
 	
 	public Board() {
 		this.emptyCellList = new ArrayList<Cell>();
 		this.matriz = createAllZeroMatrix(4);
 		this.combinedCellList = new ArrayList<Cell>();
 		this.score = new Score();
+		this.change_position = false;
+		this.starting_board = true;
 		generateRandomPosition();
 		generateRandomPosition();
+		this.starting_board = false;
+
 	}
 	
 	public Board(ArrayList<ArrayList<Cell>> b) {
@@ -24,8 +31,12 @@ public class Board {
 		this.emptyCellList = new ArrayList<Cell>();
 		this.combinedCellList = new ArrayList<Cell>();
 		this.score = new Score();
+		this.change_position = false;
+		this.starting_board = true;
 		generateRandomPosition();
 		generateRandomPosition();
+		this.starting_board = false;
+
 	}
 	
 	public void combineToRight(){
@@ -44,6 +55,7 @@ public class Board {
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
+					this.change_position = true;
 					continue;
 				}
 				
@@ -54,12 +66,14 @@ public class Board {
 					
 					Cell cellToCombine = matriz.get(f).get(position);
 					cellToCombine.combine(cell);
+					this.change_position = true;
 					continue;
 				}
 				
 				int points = cellPointer.combine(cell);
 				score.add(points);
 				combinedCellList.add(cellPointer);
+				this.change_position = true;
 				position--;
 				continue;
 			}
@@ -68,6 +82,7 @@ public class Board {
 		resetCombinedCellList();
 		findEmptyCells();
 		generateRandomPosition();
+
 	}
 	
 	public void combineToLeft(){
@@ -87,6 +102,7 @@ public class Board {
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
+					this.change_position = true;
 					continue;
 				}
 				
@@ -97,12 +113,14 @@ public class Board {
 					
 					Cell cellToCombine = matriz.get(f).get(position);
 					cellToCombine.combine(cell);
+					this.change_position = true;
 					continue;
 				}
 				
 				int points = cellPointer.combine(cell);
 				score.add(points);
 				combinedCellList.add(cellPointer);
+				this.change_position = true;
 				position++;
 				continue;
 			}
@@ -111,6 +129,7 @@ public class Board {
 		resetCombinedCellList();
 		findEmptyCells();
 		generateRandomPosition();
+		
 	}
 	
 	public void combineToUp(){
@@ -130,6 +149,7 @@ public class Board {
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
+					this.change_position = true;
 					continue;
 				}
 				
@@ -140,12 +160,14 @@ public class Board {
 					
 					Cell cellToCombine = matriz.get(position).get(c);
 					cellToCombine.combine(cell);
+					this.change_position = true;
 					continue;
 				}
 				
 				int points = cellPointer.combine(cell);
 				score.add(points);
 				combinedCellList.add(cellPointer);
+				this.change_position = true;
 				position++;
 				continue;
 			}
@@ -173,6 +195,7 @@ public class Board {
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
+					this.change_position = true;
 					continue;
 				}
 				
@@ -183,12 +206,14 @@ public class Board {
 					
 					Cell cellToCombine = matriz.get(position).get(c);
 					cellToCombine.combine(cell);
+					this.change_position = true;
 					continue;
 				}
 				
 				int points = cellPointer.combine(cell);
 				score.add(points);
 				combinedCellList.add(cellPointer);
+				this.change_position = true;
 				position--;
 				continue;
 			}
@@ -200,9 +225,13 @@ public class Board {
 	}
 	
 	public void generateRandomPosition(){
-		if(isBoardFull()) {
+		if((isBoardFull() || !this.change_position ) && !this.starting_board ) {
 			return;
 		}
+
+		
+		this.change_position = false;
+		
 		
 		Random rand = new Random();
 
