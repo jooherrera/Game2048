@@ -5,39 +5,42 @@ import java.util.List;
 import java.util.Random;
 
 public class Board {
-	ArrayList<ArrayList<Cell>> board;
+	ArrayList<ArrayList<Cell>> matriz;
 	ArrayList<Cell> emptyCellList;
 	ArrayList<Cell> combinedCellList;
 	Score score;
 	
 	public Board() {
-		this.board = createAllZeroMatrix(4);
 		this.emptyCellList = new ArrayList<Cell>();
+		this.matriz = createAllZeroMatrix(4);
 		this.combinedCellList = new ArrayList<Cell>();
 		this.score = new Score();
+		generateRandomPosition();
+		generateRandomPosition();
 	}
 	
 	public Board(ArrayList<ArrayList<Cell>> b) {
-		this.board = b;
+		this.matriz = b;
 		this.emptyCellList = new ArrayList<Cell>();
 		this.combinedCellList = new ArrayList<Cell>();
 		this.score = new Score();
+		generateRandomPosition();
+		generateRandomPosition();
 	}
 	
 	public void combineToRight(){
-		
-		for (int f = 0; f < board.size(); f++) {
+		for (int f = 0; f < matriz.size(); f++) {
 			
-			int position = board.get(f).size()-1;
-			for (int c = board.get(f).size()-1; c >= 0; c--) {
-				boolean isFirstElement = c == board.get(f).size()-1;
+			int position = matriz.get(f).size()-1;
+			for (int c = matriz.get(f).size()-1; c >= 0; c--) {
+				boolean isFirstElement = c == matriz.get(f).size()-1;
 				
-				Cell cell = board.get(f).get(c);
+				Cell cell = matriz.get(f).get(c);
 				
 				if (isFirstElement || cell.isEmpty())
 					continue;
 				
-				Cell cellPointer = board.get(f).get(position);
+				Cell cellPointer = matriz.get(f).get(position);
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
@@ -49,7 +52,7 @@ public class Board {
 					if (position == c)
 						continue;
 					
-					Cell cellToCombine = board.get(f).get(position);
+					Cell cellToCombine = matriz.get(f).get(position);
 					cellToCombine.combine(cell);
 					continue;
 				}
@@ -69,18 +72,18 @@ public class Board {
 	
 	public void combineToLeft(){
 		
-		for (int f = 0; f < board.size(); f++) {
+		for (int f = 0; f < matriz.size(); f++) {
 			
 			int position = 0;
-			for (int c = 0; c < board.get(f).size(); c++) {
+			for (int c = 0; c < matriz.get(f).size(); c++) {
 				boolean isFirstElement = c == 0;
 				
-				Cell cell = board.get(f).get(c);
+				Cell cell = matriz.get(f).get(c);
 				
 				if (isFirstElement || cell.isEmpty())
 					continue;
 				
-				Cell cellPointer = board.get(f).get(position);
+				Cell cellPointer = matriz.get(f).get(position);
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
@@ -92,7 +95,7 @@ public class Board {
 					if (position == c)
 						continue;
 					
-					Cell cellToCombine = board.get(f).get(position);
+					Cell cellToCombine = matriz.get(f).get(position);
 					cellToCombine.combine(cell);
 					continue;
 				}
@@ -112,18 +115,18 @@ public class Board {
 	
 	public void combineToUp(){
 		
-		for (int c = 0; c < board.get(0).size(); c++) {
+		for (int c = 0; c < matriz.get(0).size(); c++) {
 			
 			int position = 0;
-			for (int f = 0; f < board.size(); f++) {
+			for (int f = 0; f < matriz.size(); f++) {
 				boolean isFirstElement = f == 0;
 				
-				Cell cell = board.get(f).get(c);
+				Cell cell = matriz.get(f).get(c);
 				
 				if (isFirstElement || cell.isEmpty())
 					continue;
 				
-				Cell cellPointer = board.get(position).get(c);
+				Cell cellPointer = matriz.get(position).get(c);
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
@@ -135,7 +138,7 @@ public class Board {
 					if (position == f)
 						continue;
 					
-					Cell cellToCombine = board.get(position).get(c);
+					Cell cellToCombine = matriz.get(position).get(c);
 					cellToCombine.combine(cell);
 					continue;
 				}
@@ -150,24 +153,23 @@ public class Board {
 		
 		resetCombinedCellList();
 		findEmptyCells();		
-		
 		generateRandomPosition();
 	}
 	
 	public void combineToDown(){
 		
-		for (int c = 0; c < board.get(0).size(); c++) {
+		for (int c = 0; c < matriz.get(0).size(); c++) {
 			
-			int position = board.size()-1;
-			for (int f = board.size()-1; f >= 0; f--) {
-				boolean isFirstElement = f == board.size()-1;
+			int position = matriz.size()-1;
+			for (int f = matriz.size()-1; f >= 0; f--) {
+				boolean isFirstElement = f == matriz.size()-1;
 				
-				Cell cell = board.get(f).get(c);
+				Cell cell = matriz.get(f).get(c);
 				
 				if (isFirstElement || cell.isEmpty())
 					continue;
 				
-				Cell cellPointer = board.get(position).get(c);
+				Cell cellPointer = matriz.get(position).get(c);
 				
 				if (cellPointer.isEmpty()) {
 					cellPointer.combine(cell);
@@ -179,7 +181,7 @@ public class Board {
 					if (position == f)
 						continue;
 					
-					Cell cellToCombine = board.get(position).get(c);
+					Cell cellToCombine = matriz.get(position).get(c);
 					cellToCombine.combine(cell);
 					continue;
 				}
@@ -199,7 +201,6 @@ public class Board {
 	
 	public void generateRandomPosition(){
 		if(isBoardFull()) {
-			System.out.println("Fin del juego");
 			return;
 		}
 		
@@ -217,11 +218,11 @@ public class Board {
 	public List<List<Integer>> getBoardData(){
 		List<List<Integer>> ret = new ArrayList<>();
 		
-		for (int i = 0; i < this.board.size(); i++) {
+		for (int i = 0; i < this.matriz.size(); i++) {
 			ArrayList<Integer> newRow = new ArrayList<Integer>();
 			ret.add(newRow);
-			for (int j = 0; j < this.board.size(); j++) {
-				int cellValue = this.getRow(i).get(j).getNumber();
+			for (int j = 0; j < this.matriz.size(); j++) {
+				int cellValue = this.matriz.get(i).get(j).getNumber();
 				ret.get(i).add(cellValue);
 			}
 		}
@@ -230,18 +231,22 @@ public class Board {
 	}
 	
 	public boolean isBoardFull(){
-		return this.emptyCellList.isEmpty() ;// && todosDistintosEnFila() && todosDistintosEnColumna();	//si no hay vacios y son todos distintos, no hay mas movimientos	//si no hay vacios y son todos distintos, no hay mas movimientos
+		return this.emptyCellList.isEmpty();
+	}
+	
+	public boolean noHayMasMovimientos() {	//devuelve true si no hay mas movimientos
+		return isBoardFull() && todosDistintosEnFila() && todosDistintosEnColumna(); //si el board esta lleno y todas las celdas son distintas, no hay mas movimientos
 	}
 	
 	private boolean todosDistintosEnFila() {
 		boolean ret = true;
 		
-		for (int f = 0; f < board.size(); f++) {
+		for (int f = 0; f < matriz.size(); f++) {
 			
 			boolean distintos = true;
 			
-			for (int c = 0; c < board.get(f).size()-1; c++) {
-				distintos = distintos && board.get(f).get(c).getNumber() != board.get(f).get(c+1).getNumber();
+			for (int c = 0; c < matriz.get(f).size()-1; c++) {
+				distintos = distintos && matriz.get(f).get(c).getNumber() != matriz.get(f).get(c+1).getNumber();
 			}
 			
 			ret = ret && distintos;
@@ -253,12 +258,12 @@ public class Board {
 	private boolean todosDistintosEnColumna() {
 		boolean ret = true;
 		
-		for (int c = 0; c < board.get(0).size(); c++) {
+		for (int c = 0; c < matriz.get(0).size(); c++) {
 			
 			boolean distintos = true;
 			
-			for (int f = 0; f < board.size()-1; f++) {
-				distintos = distintos && board.get(f).get(c).getNumber() != board.get(f+1).get(c).getNumber();
+			for (int f = 0; f < matriz.size()-1; f++) {
+				distintos = distintos && matriz.get(f).get(c).getNumber() != matriz.get(f+1).get(c).getNumber();
 			}
 			
 			ret = ret && distintos;
@@ -278,7 +283,7 @@ public class Board {
 	private void findEmptyCells() {
 		this.emptyCellList.clear();
 		
-		for (ArrayList<Cell> row : this.board)
+		for (ArrayList<Cell> row : this.matriz)
 			for (Cell cell : row) {
 				if (cell.isEmpty())
 					this.emptyCellList.add(cell);
@@ -304,13 +309,24 @@ public class Board {
 			for (int j = 0; j < size; j++) {
 				Cell cell = Cell.create(0);
 				cells.get(i).add(cell);
+				emptyCellList.add(cell);
 			}
 		}
 		return cells;
 	}
 	
-	public  ArrayList<Cell> getRow(int row) {
-		return this.board.get(row);
+	public void resetBoard() {
+		for (int i = 0; i < this.matriz.size(); i++) {
+			for (int j = 0; j < this.matriz.get(i).size(); j++) {
+				Cell cell = this.matriz.get(i).get(j);
+				cell.reset();
+				emptyCellList.add(cell);
+			}
+		}
+	}
+	
+	public ArrayList<Cell> getRow(int row) {	//cambiar
+		return this.matriz.get(row);
 	}
 	
 	public int getScore() {

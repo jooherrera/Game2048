@@ -52,7 +52,7 @@ public class Game2048 implements Game {
 	@Override
 	public boolean hasPlayerLose() {
 		// TODO Auto-generated method stub
-		return false;
+		return board.noHayMasMovimientos();
 	}
 
 }

@@ -77,5 +77,10 @@ public class Cell {
 	public int getNumber() {
 		return this.value;
 	}
+	
+	public void reset() {
+		this.value = 0;
+		this.combined = false;
+	}
 
 }
