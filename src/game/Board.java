@@ -10,7 +10,7 @@ public class Board {
 	ArrayList<Cell> combinedCellList;
 	Score score;
 	boolean change_position;
-	boolean starting_board ;
+	boolean initialized ;
 	
 	
 	public Board() {
@@ -19,11 +19,8 @@ public class Board {
 		this.combinedCellList = new ArrayList<Cell>();
 		this.score = new Score();
 		this.change_position = false;
-		this.starting_board = true;
-		generateRandomPosition();
-		generateRandomPosition();
-		this.starting_board = false;
-
+		this.initialized = false;
+		this.init();
 	}
 	
 	public Board(ArrayList<ArrayList<Cell>> b) {
@@ -32,11 +29,17 @@ public class Board {
 		this.combinedCellList = new ArrayList<Cell>();
 		this.score = new Score();
 		this.change_position = false;
-		this.starting_board = true;
-		generateRandomPosition();
-		generateRandomPosition();
-		this.starting_board = false;
-
+		this.initialized = false;
+		this.init();
+	}
+	
+	public void restart() {
+		this.resetBoard();
+		this.combinedCellList.clear();
+		this.score.reset();
+		this.change_position = false;
+		this.initialized = false;
+		this.init();
 	}
 	
 	public void combineToRight(){
@@ -225,7 +228,7 @@ public class Board {
 	}
 	
 	public void generateRandomPosition(){
-		if((isBoardFull() || !this.change_position ) && !this.starting_board ) {
+		if((isBoardFull() || !this.change_position ) && this.initialized ) {
 			return;
 		}
 
@@ -319,15 +322,11 @@ public class Board {
 			}
 	}
 	
-//	private void printBoard() {
-//		for (int i = 0; i < this.board.size(); i++) {
-//			for (int j = 0; j < this.board.get(i).size(); j++) {
-//				System.out.print("["+this.board.get(i).get(j).getNumber()+"] ");
-//			}
-//			System.out.println();
-//		}
-//		System.out.println();
-//	}
+	private void init() {
+		this.generateRandomPosition();
+		this.generateRandomPosition();
+		this.initialized = true;
+	}
 	
 	private ArrayList<ArrayList<Cell>> createAllZeroMatrix(int size) {
 		ArrayList<ArrayList<Cell>> cells = new ArrayList<ArrayList<Cell>>();
@@ -344,7 +343,9 @@ public class Board {
 		return cells;
 	}
 	
-	public void resetBoard() {
+	private void resetBoard() {
+		this.emptyCellList.clear();
+		
 		for (int i = 0; i < this.matriz.size(); i++) {
 			for (int j = 0; j < this.matriz.get(i).size(); j++) {
 				Cell cell = this.matriz.get(i).get(j);

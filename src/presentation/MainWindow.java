@@ -36,6 +36,8 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Dimension;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainWindow {
 
@@ -45,6 +47,7 @@ public class MainWindow {
 	private JTextField textField_0;
 	private JLabel label_cell;
 	private JPanel panel;
+	private Button button;
 	private Game game;
 
 	/**
@@ -163,7 +166,17 @@ public class MainWindow {
 		frmProg.getContentPane().add(textField);
 		textField.setColumns(10);
 
-		Button button = new Button("Nueva Partida");
+		button = new Button("Nueva Partida");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				game.newGame();
+				frmProg.remove(panel);
+				repaint();
+				
+
+			}
+		});
 		button.setBackground(new Color(192, 192, 192));
 		button.setFont(new Font("Dialog", Font.BOLD, 25));
 		button.setActionCommand("Nueva Partida");
@@ -178,7 +191,9 @@ public class MainWindow {
 		panel = updateBoard(game.getBoard());
 		frmProg.getContentPane().add(panel);
 		frmProg.repaint();
+		frmProg.getContentPane().requestFocus();
 
+		System.out.println(game.getBoard());
 	}
 	
 	JPanel updateBoard(List<List<Integer>> matriz){
