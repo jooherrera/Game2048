@@ -9,6 +9,8 @@ public interface Game {
 	void moveToUp();
 	void moveToDwn();
 	
+	void newGame();
+	
 	int getScore();
 	List<List<Integer>> getBoard();
 	boolean hasPlayerWon();

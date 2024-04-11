@@ -17,6 +17,10 @@ public class Score {
 		
 	}
 	
+	public void reset() {
+		this.value = 0;
+	}
+	
 	public int getValue() {
 		return this.value;
 	}
