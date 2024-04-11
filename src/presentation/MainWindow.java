@@ -47,6 +47,7 @@ public class MainWindow {
 	private JTextField textField_0;
 	private JLabel label_cell;
 	private JPanel panel;
+	private JLabel label_score;
 	private Button button;
 	private Game game;
 
@@ -124,6 +125,8 @@ public class MainWindow {
 				if(game.hasPlayerLose()) {
 					System.out.println("Juego finalizado");
 				}
+				
+				repaintScore();
 			}
 		});
 
@@ -147,13 +150,13 @@ public class MainWindow {
 		frmProg.getContentPane().add(txtPuntos);
 		txtPuntos.setColumns(10);
 
-		JLabel lblNewLabel = new JLabel(String.valueOf(game.getScore()));
-		lblNewLabel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBackground(new Color(98, 160, 234));
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblNewLabel.setBounds(663, 84, 86, 48);
-		frmProg.getContentPane().add(lblNewLabel);
+		label_score = new JLabel(String.valueOf(game.getScore()));
+		label_score.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		label_score.setHorizontalAlignment(SwingConstants.CENTER);
+		label_score.setBackground(new Color(98, 160, 234));
+		label_score.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		label_score.setBounds(663, 84, 86, 48);
+		frmProg.getContentPane().add(label_score);
 
 		JLabel lblNewLabel_2 = new JLabel("2048");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 60));
@@ -194,6 +197,11 @@ public class MainWindow {
 		frmProg.getContentPane().requestFocus();
 
 		System.out.println(game.getBoard());
+	}
+
+	void repaintScore() {
+		
+		label_score.setText(String.valueOf(game.getScore()));
 	}
 	
 	JPanel updateBoard(List<List<Integer>> matriz){
