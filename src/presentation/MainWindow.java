@@ -160,7 +160,7 @@ public class MainWindow {
 
 		JLabel lblNewLabel_2 = new JLabel("2048");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 55));
-		lblNewLabel_2.setBounds(285, 32, 143, 56);
+		lblNewLabel_2.setBounds(282, 32, 143, 56);
 		frmProg.getContentPane().add(lblNewLabel_2);
 
 		textField = new JTextField();
