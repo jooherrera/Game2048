@@ -46,6 +46,7 @@ public class MainWindow {
 	private JTextField textField;
 	private JTextField textField_0;
 	private JLabel label_cell;
+	private JPanel empty_cell;
 	private JPanel panel;
 	private JLabel label_score;
 	private Button button;
@@ -160,7 +161,7 @@ public class MainWindow {
 
 		JLabel lblNewLabel_2 = new JLabel("2048");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 60));
-		lblNewLabel_2.setBounds(310, 32, 143, 56);
+		lblNewLabel_2.setBounds(300, 32, 161, 56);
 		frmProg.getContentPane().add(lblNewLabel_2);
 
 		textField = new JTextField();
@@ -222,16 +223,36 @@ public class MainWindow {
 				int cellValue = matriz.get(i).get(j);
 
 				positionX += 103;
-
+				
+				if (cellValue != 0) {
 				label_cell = new JLabel(String.valueOf(cellValue));
 				label_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 				label_cell.setBounds(positionX, positionY, 75, 75);
 				label_cell.setFont(new Font("Tahoma", Font.BOLD, 40));
 				label_cell.setOpaque(true);
-				label_cell.setBackground(new Color(98, 160, 234));
+				
+				if (cellValue <= 16) {	//de azul a rojo
+					label_cell.setBackground(new Color(Math.min(98+(cellValue*10), 255), 
+													Math.max(160-(cellValue*4), 0), 
+													Math.max(234-(cellValue*8), 0)));
+				}else if (cellValue < 512){	//de rojo a amarillo
+					label_cell.setBackground(new Color(255-(cellValue/8), 
+							Math.min(cellValue*2, 255), 0));
+				}else {		//de amarillo a verde
+					label_cell.setBackground(new Color(Math.max(212-(cellValue/16), 0), 255, 0));
+				}
+				
 				label_cell.setHorizontalAlignment(SwingConstants.CENTER);
 
 				panel.add(label_cell);
+				}else {
+					empty_cell = new JPanel();
+					empty_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+					empty_cell.setBounds(positionX, positionY, 75, 75);
+					empty_cell.setOpaque(true);
+					empty_cell.setBackground(new Color(98, 160, 234));
+					panel.add(empty_cell);
+				}
 			}
 		}
 		
