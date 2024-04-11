@@ -12,6 +12,7 @@ public class Game2048 implements Game {
 	}
 	
 	
+	
 	@Override
 	public void moveToRight() {
 		board.combineToRight();
@@ -53,6 +54,13 @@ public class Game2048 implements Game {
 	public boolean hasPlayerLose() {
 		// TODO Auto-generated method stub
 		return board.noHayMasMovimientos();
+	}
+
+
+
+	@Override
+	public void newGame() {
+		board.restart();
 	}
 
 }

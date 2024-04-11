@@ -38,6 +38,8 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Dimension;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainWindow {
 
@@ -47,6 +49,7 @@ public class MainWindow {
 	private JTextField textField_0;
 	private JLabel label_cell;
 	private JPanel panel;
+	private Button button;
 	private Game game;
 
 	/**
@@ -160,7 +163,17 @@ public class MainWindow {
 		frmProg.getContentPane().add(textField);
 		textField.setColumns(10);
 
-		Button button = new Button("Nueva Partida");
+		button = new Button("Nueva Partida");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				game.newGame();
+				frmProg.remove(panel);
+				repaint();
+				
+
+			}
+		});
 		button.setBackground(new Color(192, 192, 192));
 		button.setFont(new Font("Dialog", Font.BOLD, 25));
 		button.setActionCommand("Nueva Partida");
@@ -172,40 +185,43 @@ public class MainWindow {
 		panel = updateBoard(game.getBoard());
 		frmProg.getContentPane().add(panel);
 		frmProg.repaint();
- }
- 
- void repaintScore(){
+        frmProg.getContentPane().requestFocus();
+
+    void repaintScore(){
 
 		label_score.setText(String.valueOf(game.getScore()));
-
 	}
+        
+   	JPanel updateBoard(List<List<Integer>> matriz){     
 
-	JPanel panel = new JPanel();panel.setBounds(100,100,500,450);panel.setLayout(null);
+        JPanel panel = new JPanel();
+        panel.setBounds(100,100,500,450);
+        panel.setLayout(null);
 
-	int positionY = -50;
+        int positionY = -50;
 
-	for(
-	int i = 0;i<matriz.size();i++)
-	{
+        for(
+        int i = 0;i<matriz.size();i++)
+        {
 
-		positionY += 100;
-		int positionX = -40;
+            positionY += 100;
+            int positionX = -40;
 
-		for (int j = 0; j < matriz.get(i).size(); j++) {
-			int cellValue = matriz.get(i).get(j);
+            for (int j = 0; j < matriz.get(i).size(); j++) {
+                int cellValue = matriz.get(i).get(j);
 
-			positionX += 103;
+                positionX += 103;
 
-			label_cell = new JLabel(String.valueOf(cellValue));
-			label_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-			label_cell.setBounds(positionX, positionY, 75, 75);
-			label_cell.setFont(new Font("Tahoma", Font.BOLD, 40));
+                label_cell = new JLabel(String.valueOf(cellValue));
+                label_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+                label_cell.setBounds(positionX, positionY, 75, 75);
+                label_cell.setFont(new Font("Tahoma", Font.BOLD, 40));
 
-			label_cell.setHorizontalAlignment(SwingConstants.CENTER);
+                label_cell.setHorizontalAlignment(SwingConstants.CENTER);
 
-		}
+            }
 
-		return panel;
+        return panel;
 	}
 
 }
