@@ -92,6 +92,9 @@ public class MainWindow {
 		frmProg.getContentPane().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+				
+
+				
 				if (e.getKeyCode() == 39) {		
 					frmProg.remove(panel);
 					game.moveToRight();
@@ -123,9 +126,26 @@ public class MainWindow {
 
 				}
 				
-				if(game.hasPlayerLose()) {
+				
+				if(game.hasPlayerLose() && !game.hasPlayerWon()) {
 					System.out.println("Juego finalizado");
+					return;
 				}
+				
+				if(game.hasPlayerWon() && !game.hasPlayerLose()) {
+					System.out.println("Mostrar cartel si quiere seguir jugando...");				
+					System.out.println("SI ->> ");
+					System.out.println("Sigue jugando");
+					System.out.println("NO ->> Empezar nueva partida");
+					return;
+				}
+				
+				if(game.hasPlayerWon() && game.hasPlayerLose()) {
+					System.out.println("Termino el juego");
+					System.out.println("Mostrar cartel de que gano pero no tiene mas movimientos");
+					return;
+				}
+
 				
 				repaintScore();
 			}
@@ -137,11 +157,8 @@ public class MainWindow {
 		frmProg.setBounds(00, 00, 800, 600);
 		frmProg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProg.getContentPane().setLayout(null);
-
 		
 		frmProg.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { frmProg.getContentPane(), panel }));
-
-		
 
 		JTextField txtPuntos = new JTextField();
 		txtPuntos.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -189,15 +206,12 @@ public class MainWindow {
 
 	}
 	
-	
 	void repaint(){
 
 		panel = updateBoard(game.getBoard());
 		frmProg.getContentPane().add(panel);
 		frmProg.repaint();
 		frmProg.getContentPane().requestFocus();
-
-		System.out.println(game.getBoard());
 	}
 
 	void repaintScore() {
