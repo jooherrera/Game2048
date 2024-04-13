@@ -5,6 +5,7 @@ import java.util.List;
 public class Game2048 implements Game {
 	
 	Board board = new Board();
+	int WIN_POINTS = 2048;
 	
 	public Game2048() {
 //		board.getRow(0).set(0, new Cell(2,false));
@@ -15,23 +16,30 @@ public class Game2048 implements Game {
 	
 	@Override
 	public void moveToRight() {
-		board.combineToRight();
+		if(!this.hasPlayerLose()) {
+			board.combineToRight();
+		}
 	}
 
 	@Override
 	public void moveToLeft() {
+		if(!this.hasPlayerLose()) {
 		board.combineToLeft();
-		
+		}
 	}
 
 	@Override
 	public void moveToUp() {
+		if(!this.hasPlayerLose()) {
 		board.combineToUp();
+		}
 	}
 
 	@Override
 	public void moveToDwn() {
+		if(!this.hasPlayerLose()) {
 		board.combineToDown();	
+		}
 	}
 
 	@Override
@@ -46,8 +54,7 @@ public class Game2048 implements Game {
 
 	@Override
 	public boolean hasPlayerWon() {
-		// TODO Auto-generated method stub
-		return false;
+		return board.checkMaxValue(WIN_POINTS);
 	}
 
 	@Override
@@ -55,8 +62,6 @@ public class Game2048 implements Game {
 		// TODO Auto-generated method stub
 		return board.noHayMasMovimientos();
 	}
-
-
 
 	@Override
 	public void newGame() {

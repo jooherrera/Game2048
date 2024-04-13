@@ -11,6 +11,7 @@ public class Board {
 	Score score;
 	boolean change_position;
 	boolean initialized ;
+	int max_combination;
 	
 	
 	public Board() {
@@ -20,6 +21,7 @@ public class Board {
 		this.score = new Score();
 		this.change_position = false;
 		this.initialized = false;
+		this.max_combination = 0;
 		this.init();
 	}
 	
@@ -30,6 +32,7 @@ public class Board {
 		this.score = new Score();
 		this.change_position = false;
 		this.initialized = false;
+		this.max_combination = 0;
 		this.init();
 	}
 	
@@ -39,6 +42,7 @@ public class Board {
 		this.score.reset();
 		this.change_position = false;
 		this.initialized = false;
+		this.max_combination = 0;
 		this.init();
 	}
 	
@@ -75,9 +79,13 @@ public class Board {
 				
 				int points = cellPointer.combine(cell);
 				score.add(points);
+
 				combinedCellList.add(cellPointer);
 				this.change_position = true;
 				position--;
+				
+				this.max_combination = points > this.max_combination ?  points : this.max_combination;
+				
 				continue;
 			}
 		}
@@ -125,6 +133,9 @@ public class Board {
 				combinedCellList.add(cellPointer);
 				this.change_position = true;
 				position++;
+				
+				this.max_combination = points > this.max_combination ?  points : this.max_combination;
+				
 				continue;
 			}
 		}
@@ -172,6 +183,9 @@ public class Board {
 				combinedCellList.add(cellPointer);
 				this.change_position = true;
 				position++;
+				
+				this.max_combination = points > this.max_combination ?  points : this.max_combination;
+
 				continue;
 			}
 		}
@@ -218,6 +232,10 @@ public class Board {
 				combinedCellList.add(cellPointer);
 				this.change_position = true;
 				position--;
+
+				
+				this.max_combination = points > this.max_combination ?  points : this.max_combination;
+				
 				continue;
 			}
 		}
@@ -361,5 +379,9 @@ public class Board {
 	
 	public int getScore() {
 		return this.score.getValue();
+	}
+	
+	public boolean checkMaxValue(int value) {
+		return this.max_combination >= value;
 	}
 }
