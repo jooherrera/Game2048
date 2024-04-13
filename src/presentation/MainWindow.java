@@ -46,6 +46,7 @@ public class MainWindow {
 	private JTextField textField;
 	private JTextField textField_0;
 	private JLabel label_cell;
+	private JPanel empty_cell;
 	private JPanel panel;
 	private JLabel label_score;
 	private Button button;
@@ -222,21 +223,50 @@ public class MainWindow {
 				int cellValue = matriz.get(i).get(j);
 
 				positionX += 103;
+				
+				if (cellValue != 0) {
+					label_cell = new JLabel(String.valueOf(cellValue));
+					label_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+					label_cell.setBounds(positionX, positionY, 75, 75);
+					label_cell.setFont(generateCellFont(cellValue));
+					label_cell.setOpaque(true);
+					label_cell.setBackground(generateCellColor(cellValue));
+					label_cell.setHorizontalAlignment(SwingConstants.CENTER);
 
-				label_cell = new JLabel(String.valueOf(cellValue));
-				label_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				label_cell.setBounds(positionX, positionY, 75, 75);
-				label_cell.setFont(new Font("Tahoma", Font.BOLD, 40));
-				label_cell.setOpaque(true);
-				label_cell.setBackground(new Color(98, 160, 234));
-				label_cell.setHorizontalAlignment(SwingConstants.CENTER);
-
-				panel.add(label_cell);
+					panel.add(label_cell);
+				}else {
+					empty_cell = new JPanel();
+					empty_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+					empty_cell.setBounds(positionX, positionY, 75, 75);
+					empty_cell.setOpaque(true);
+					empty_cell.setBackground(new Color(98, 160, 234));
+					panel.add(empty_cell);
+				}
 			}
 		}
 		
 		return panel;
 	}
 	
+	private Font generateCellFont(int cellValue) {
+		return new Font("Tahoma", Font.BOLD, 50 - (String.valueOf(cellValue).length()*6));
+	}
+	
+	private Color generateCellColor(int cellValue) {
+		Color cellColor = null;
+		
+		if (cellValue <= 16) {
+			cellColor = new Color(Math.min(98+(cellValue*10), 255), 
+											Math.max(160-(cellValue*4), 0), 
+											Math.max(234-(cellValue*8), 0));	//de azul a rojo
+		}else if (cellValue <= 512){
+			cellColor = new Color(255-(cellValue/8), 
+					Math.min(cellValue*2, 255), 0);								//de rojo a amarillo
+		}else {
+			cellColor = new Color(Math.max(212-(cellValue/16), 0), 255, 0);		//de amarillo a verde
+		}
+		
+		return cellColor;
+	}
 	
 }
