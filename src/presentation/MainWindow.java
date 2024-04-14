@@ -13,6 +13,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Component;
 import java.awt.Panel;
+
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import java.awt.Button;
 import javax.swing.JPanel;
@@ -51,6 +53,7 @@ public class MainWindow {
 	private JLabel label_score;
 	private Button button;
 	private Game game;
+	private boolean showedLoseWindow;
 
 	/**
 	 * Launch the application.
@@ -73,6 +76,7 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		game = new Game2048();
+		showedLoseWindow = false;
 		initialize(game);
 	}
 
@@ -93,6 +97,9 @@ public class MainWindow {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
+				if(showedLoseWindow) {
+					return;
+				}
 
 				
 				if (e.getKeyCode() == 39) {		
@@ -129,6 +136,17 @@ public class MainWindow {
 				
 				if(game.hasPlayerLose() && !game.hasPlayerWon()) {
 					System.out.println("Juego finalizado");
+					showedLoseWindow = true;
+					EndGameDialog dialog = new EndGameDialog(frmProg);
+				    dialog.setLocationRelativeTo(frmProg);
+				    dialog.setVisible(true);
+
+				    // Después de que el diálogo se cierra, obtén el valor
+				    if(!dialog.accepted()) {
+				    	return;
+				    }
+
+					newGame();    
 					return;
 				}
 				
@@ -146,8 +164,6 @@ public class MainWindow {
 					return;
 				}
 
-				
-				repaintScore();
 			}
 		});
 
@@ -191,11 +207,7 @@ public class MainWindow {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				game.newGame();
-				frmProg.remove(panel);
-				repaint();
-				
-
+				newGame();
 			}
 		});
 		button.setBackground(new Color(192, 192, 192));
@@ -212,6 +224,7 @@ public class MainWindow {
 		frmProg.getContentPane().add(panel);
 		frmProg.repaint();
 		frmProg.getContentPane().requestFocus();
+		repaintScore();
 	}
 
 	void repaintScore() {
@@ -281,6 +294,13 @@ public class MainWindow {
 		}
 		
 		return cellColor;
+	}
+	
+	private void newGame() {
+		game.newGame();
+		showedLoseWindow = false;
+		frmProg.remove(panel);
+		repaint();
 	}
 	
 }
