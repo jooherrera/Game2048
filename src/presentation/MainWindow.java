@@ -137,7 +137,7 @@ public class MainWindow {
 				if(game.hasPlayerLose() && !game.hasPlayerWon()) {
 					System.out.println("Juego finalizado");
 					showedLoseWindow = true;
-					EndGameDialog dialog = new EndGameDialog(frmProg);
+					EndGameDialog dialog = new EndGameDialog(frmProg, "perdio");
 				    dialog.setLocationRelativeTo(frmProg);
 				    dialog.setVisible(true);
 
@@ -151,16 +151,34 @@ public class MainWindow {
 				}
 				
 				if(game.hasPlayerWon() && !game.hasPlayerLose()) {
-					System.out.println("Mostrar cartel si quiere seguir jugando...");				
-					System.out.println("SI ->> ");
-					System.out.println("Sigue jugando");
-					System.out.println("NO ->> Empezar nueva partida");
+					System.out.println("Juego finalizado");
+					showedLoseWindow = true;
+					EndGameDialog dialog = new EndGameDialog(frmProg, "gano");
+				    dialog.setLocationRelativeTo(frmProg);
+				    dialog.setVisible(true);
+					
+				    // Después de que el diálogo se cierra, obtén el valor
+				    if(!dialog.accepted()) {
+				    	return;
+				    }
+
+					//newGame(); aca falta resumir la partida   
 					return;
 				}
 				
 				if(game.hasPlayerWon() && game.hasPlayerLose()) {
-					System.out.println("Termino el juego");
-					System.out.println("Mostrar cartel de que gano pero no tiene mas movimientos");
+					System.out.println("Juego finalizado");
+					showedLoseWindow = true;
+					EndGameDialog dialog = new EndGameDialog(frmProg, "ganoyperdio");
+				    dialog.setLocationRelativeTo(frmProg);
+				    dialog.setVisible(true);
+
+				    // Después de que el diálogo se cierra, obtén el valor
+				    if(!dialog.accepted()) {
+				    	return;
+				    }
+
+					newGame();    
 					return;
 				}
 
