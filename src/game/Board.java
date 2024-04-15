@@ -28,6 +28,7 @@ public class Board {
 	public Board(ArrayList<ArrayList<Cell>> b) {
 		this.matriz = b;
 		this.emptyCellList = new ArrayList<Cell>();
+		this.findEmptyCells();
 		this.combinedCellList = new ArrayList<Cell>();
 		this.score = new Score();
 		this.change_position = false;
@@ -93,7 +94,6 @@ public class Board {
 		resetCombinedCellList();
 		findEmptyCells();
 		generateRandomPosition();
-
 	}
 	
 	public void combineToLeft(){
@@ -143,7 +143,6 @@ public class Board {
 		resetCombinedCellList();
 		findEmptyCells();
 		generateRandomPosition();
-		
 	}
 	
 	public void combineToUp(){
@@ -249,10 +248,8 @@ public class Board {
 		if((isBoardFull() || !this.change_position ) && this.initialized ) {
 			return;
 		}
-
 		
 		this.change_position = false;
-		
 		
 		Random rand = new Random();
 
@@ -285,7 +282,8 @@ public class Board {
 	}
 	
 	public boolean noHayMasMovimientos() {	//devuelve true si no hay mas movimientos
-		return isBoardFull() && todosDistintosEnFila() && todosDistintosEnColumna(); //si el board esta lleno y todas las celdas son distintas, no hay mas movimientos
+		//si el board esta lleno y todas las celdas son distintas, entonces no hay mas movimientos
+		return isBoardFull() && todosDistintosEnFila() && todosDistintosEnColumna();
 	}
 	
 	private boolean todosDistintosEnFila() {
@@ -371,10 +369,6 @@ public class Board {
 				emptyCellList.add(cell);
 			}
 		}
-	}
-	
-	public ArrayList<Cell> getRow(int row) {	//cambiar
-		return this.matriz.get(row);
 	}
 	
 	public int getScore() {

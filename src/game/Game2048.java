@@ -8,8 +8,7 @@ public class Game2048 implements Game {
 	int WIN_POINTS = 2048;
 	
 	public Game2048() {
-//		board.getRow(0).set(0, new Cell(2,false));
-//		board.getRow(0).set(1, new Cell(2,false));
+		
 	}
 	
 	
@@ -59,7 +58,6 @@ public class Game2048 implements Game {
 
 	@Override
 	public boolean hasPlayerLose() {
-		// TODO Auto-generated method stub
 		return board.noHayMasMovimientos();
 	}
 

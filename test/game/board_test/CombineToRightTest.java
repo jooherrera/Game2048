@@ -2,6 +2,8 @@ package game.board_test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import game.Board;
@@ -18,109 +20,143 @@ public class CombineToRightTest {
 	
 	@Test
 	public void combineRightValorYCerosSumaTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		Board b = new Board(cells);
+		
 		b.combineToRight();
-		assertEquals(0,b.getScore());
+		assertEquals(0, b.getScore());
 	}
 	
 	@Test
 	public void combineRightDosValoresIgualesSumaTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		cells.get(0).set(1, new Cell(2,false));
+		Board b = new Board(cells);
+		
 		b.combineToRight();
 		assertEquals(4, b.getScore());
 	}
 	
 	@Test
 	public void combineRightCuatroValoresIgualesSumaTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
-		b.getRow(0).set(3, new Cell(2,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		cells.get(0).set(1, new Cell(2,false));
+		cells.get(0).set(2, new Cell(2,false));
+		cells.get(0).set(3, new Cell(2,false));
+		Board b = new Board(cells);
+		
 		b.combineToRight();
 		assertEquals(8, b.getScore());
 	}
 	
 	@Test
 	public void combineRightDosValoresDiferentesSumaTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(4,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		cells.get(0).set(1, new Cell(4,false));
+		Board b = new Board(cells);
+		
 		b.combineToRight();
 		assertEquals(0, b.getScore());
 	}
 	
 	@Test
 	public void combineRightDosIgualesUnoDiferenteSumaTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(4,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		cells.get(0).set(1, new Cell(2,false));
+		cells.get(0).set(2, new Cell(4,false));
+		Board b = new Board(cells);
+		
 		b.combineToRight();
 		assertEquals(4, b.getScore());
 	}
 	
 	@Test
 	public void combineRightValorYCerosCellTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		Board b = new Board(cells);
 		
 		b.combineToRight();
-
-		assertEquals(2, b.getRow(0).get(3).getNumber());
+		assertEquals(2, b.getBoardData().get(0).get(3).intValue());
 	}
 	
 	@Test
 	public void combineRightDosValoresIgualesCellTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		cells.get(0).set(1, new Cell(2,false));
+		Board b = new Board(cells);
 		
 		b.combineToRight();
-		
-		assertEquals(4, b.getRow(0).get(3).getNumber());
+		assertEquals(4, b.getBoardData().get(0).get(3).intValue());
 	}
 	
 	@Test
 	public void combineRightCuatroValoresIgualesCellTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
-		b.getRow(0).set(3, new Cell(2,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		cells.get(0).set(1, new Cell(2,false));
+		cells.get(0).set(2, new Cell(2,false));
+		cells.get(0).set(3, new Cell(2,false));
+		Board b = new Board(cells);
 		
 		b.combineToRight();
-
-		assertEquals(4, b.getRow(0).get(2).getNumber());
-		assertEquals(4, b.getRow(0).get(3).getNumber());
+		assertEquals(4, b.getBoardData().get(0).get(2).intValue());
+		assertEquals(4, b.getBoardData().get(0).get(3).intValue());
 	}
 	
 	@Test
 	public void combineRightDosValoresDiferentesCellTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(4,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		cells.get(0).set(1, new Cell(4,false));
+		Board b = new Board(cells);
 		
 		b.combineToRight();
-
-		assertEquals(2, b.getRow(0).get(2).getNumber());
-		assertEquals(4, b.getRow(0).get(3).getNumber());
+		assertEquals(2, b.getBoardData().get(0).get(2).intValue());
+		assertEquals(4, b.getBoardData().get(0).get(3).intValue());
 	}
 	
 	@Test
 	public void combineRightDosIgualesUnoDiferenteCellTest() {
-		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(4,false));
+		ArrayList<ArrayList<Cell>> cells = createEmptyCellMatrix(4);
+		
+		cells.get(0).set(0, new Cell(2,false));
+		cells.get(0).set(1, new Cell(2,false));
+		cells.get(0).set(2, new Cell(4,false));
+		Board b = new Board(cells);
 		
 		b.combineToRight();
-
-		assertEquals(4, b.getRow(0).get(2).getNumber());
-		assertEquals(4, b.getRow(0).get(3).getNumber());
+		assertEquals(4, b.getBoardData().get(0).get(2).intValue());
+		assertEquals(4, b.getBoardData().get(0).get(3).intValue());
 	}
-
+	
+	private ArrayList<ArrayList<Cell>> createEmptyCellMatrix(int size) {
+		ArrayList<ArrayList<Cell>> cells = new ArrayList<ArrayList<Cell>>();
+		
+		for (int i = 0; i < size; i++) {
+			ArrayList<Cell> cellRow = new ArrayList<Cell>();
+			cells.add(cellRow);
+			for (int j = 0; j < size; j++) {
+				Cell cell = Cell.create(0);
+				cells.get(i).add(cell);
+			}
+		}
+		
+		return cells;
+	}
 }
