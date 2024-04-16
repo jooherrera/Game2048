@@ -44,141 +44,25 @@ public class Board {
 	
 	public void combineToRight(){
 		for (int f = 0; f < matriz.size(); f++) {
-			
-			int position = matriz.get(f).size()-1;
-			for (int c = matriz.get(f).size()-1; c >= 0; c--) {
-				boolean isFirstElement = c == matriz.get(f).size()-1;
-				
-				Cell cell = matriz.get(f).get(c);
-				
-				if (isFirstElement || cell.isEmpty())
-					continue;
-				
-				Cell cellPointer = matriz.get(f).get(position);
-				
-				if (cellPointer.isEmpty()) {
-					cellPointer.combine(cell);
-					this.change_position = true;
-					continue;
-				}
-				
-				if (cell.getNumber() != cellPointer.getNumber()) {
-					position--;
-					if (position == c)
-						continue;
-					
-					Cell cellToCombine = matriz.get(f).get(position);
-					cellToCombine.combine(cell);
-					this.change_position = true;
-					continue;
-				}
-				
-				int points = cellPointer.combine(cell);
-				score.add(points);
-
-				this.change_position = true;
-				position--;
-				
-				this.max_combination = points > this.max_combination ?  points : this.max_combination;
-				
-				continue;
-			}
+			recorrerYCombinarRight(f);
 		}
 		
 		findEmptyCells();
 		generateRandomPosition();
-
 	}
 	
 	public void combineToLeft(){
-		
 		for (int f = 0; f < matriz.size(); f++) {
-			
-			int position = 0;
-			for (int c = 0; c < matriz.get(f).size(); c++) {
-				boolean isFirstElement = c == 0;
-				
-				Cell cell = matriz.get(f).get(c);
-				
-				if (isFirstElement || cell.isEmpty())
-					continue;
-				
-				Cell cellPointer = matriz.get(f).get(position);
-				
-				if (cellPointer.isEmpty()) {
-					cellPointer.combine(cell);
-					this.change_position = true;
-					continue;
-				}
-				
-				if (cell.getNumber() != cellPointer.getNumber()) {
-					position++;
-					if (position == c)
-						continue;
-					
-					Cell cellToCombine = matriz.get(f).get(position);
-					cellToCombine.combine(cell);
-					this.change_position = true;
-					continue;
-				}
-				
-				int points = cellPointer.combine(cell);
-				score.add(points);
-				this.change_position = true;
-				position++;
-				
-				this.max_combination = points > this.max_combination ?  points : this.max_combination;
-				
-				continue;
-			}
+			recorrerYCombinarLeft(f);
 		}
 		
 		findEmptyCells();
 		generateRandomPosition();
-		
 	}
 	
 	public void combineToUp(){
-		
 		for (int c = 0; c < matriz.get(0).size(); c++) {
-			
-			int position = 0;
-			for (int f = 0; f < matriz.size(); f++) {
-				boolean isFirstElement = f == 0;
-				
-				Cell cell = matriz.get(f).get(c);
-				
-				if (isFirstElement || cell.isEmpty())
-					continue;
-				
-				Cell cellPointer = matriz.get(position).get(c);
-				
-				if (cellPointer.isEmpty()) {
-					cellPointer.combine(cell);
-					this.change_position = true;
-					continue;
-				}
-				
-				if (cell.getNumber() != cellPointer.getNumber()) {
-					position++;
-					if (position == f)
-						continue;
-					
-					Cell cellToCombine = matriz.get(position).get(c);
-					cellToCombine.combine(cell);
-					this.change_position = true;
-					continue;
-				}
-				
-				int points = cellPointer.combine(cell);
-				score.add(points);
-				this.change_position = true;
-				position++;
-				
-				this.max_combination = points > this.max_combination ?  points : this.max_combination;
-
-				continue;
-			}
+			recorrerYCombinarUp(c);
 		}
 		
 		findEmptyCells();		
@@ -186,47 +70,8 @@ public class Board {
 	}
 	
 	public void combineToDown(){
-		
 		for (int c = 0; c < matriz.get(0).size(); c++) {
-			
-			int position = matriz.size()-1;
-			for (int f = matriz.size()-1; f >= 0; f--) {
-				boolean isFirstElement = f == matriz.size()-1;
-				
-				Cell cell = matriz.get(f).get(c);
-				
-				if (isFirstElement || cell.isEmpty())
-					continue;
-				
-				Cell cellPointer = matriz.get(position).get(c);
-				
-				if (cellPointer.isEmpty()) {
-					cellPointer.combine(cell);
-					this.change_position = true;
-					continue;
-				}
-				
-				if (cell.getNumber() != cellPointer.getNumber()) {
-					position--;
-					if (position == f)
-						continue;
-					
-					Cell cellToCombine = matriz.get(position).get(c);
-					cellToCombine.combine(cell);
-					this.change_position = true;
-					continue;
-				}
-				
-				int points = cellPointer.combine(cell);
-				score.add(points);
-				this.change_position = true;
-				position--;
-
-				
-				this.max_combination = points > this.max_combination ?  points : this.max_combination;
-				
-				continue;
-			}
+			recorrerYCombinarDown(c);
 		}
 		
 		findEmptyCells();
@@ -237,10 +82,8 @@ public class Board {
 		if((isBoardFull() || !this.change_position ) && this.initialized ) {
 			return;
 		}
-
 		
 		this.change_position = false;
-		
 		
 		Random rand = new Random();
 
@@ -268,7 +111,15 @@ public class Board {
 		return ret;
 	}
 	
-	public boolean isBoardFull(){
+	public int getScore() {
+		return this.score.getValue();
+	}
+	
+	public boolean checkMaxValue(int value) {
+		return this.max_combination >= value;
+	}
+	
+	private boolean isBoardFull(){
 		return this.emptyCellList.isEmpty();
 	}
 	
@@ -313,11 +164,12 @@ public class Board {
 	private void findEmptyCells() {
 		this.emptyCellList.clear();
 		
-		for (ArrayList<Cell> row : this.matriz)
+		for (ArrayList<Cell> row : this.matriz) {
 			for (Cell cell : row) {
 				if (cell.isEmpty())
 					this.emptyCellList.add(cell);
 			}
+		}
 	}
 	
 	private void init() {
@@ -353,15 +205,150 @@ public class Board {
 		}
 	}
 	
-	public ArrayList<Cell> getRow(int row) {	//cambiar
-		return this.matriz.get(row);
+	private void recorrerYCombinarRight(int f) {
+		int position = matriz.get(f).size()-1;
+		
+		for (int c = matriz.get(f).size()-1; c >= 0; c--) {
+			boolean isFirstElement = c == matriz.get(f).size()-1;
+			
+			Cell cell = matriz.get(f).get(c);
+			
+			if (isFirstElement || cell.isEmpty())
+				continue;
+			
+			Cell cellPointer = matriz.get(f).get(position);
+			
+			if (cellPointer.isEmpty()) {
+				cellPointer.combine(cell);
+				this.change_position = true;
+				continue;
+			}
+			
+			if (cell.getNumber() != cellPointer.getNumber()) {
+				position--;
+				if (position == c)
+					continue;
+				
+				Cell cellToCombine = matriz.get(f).get(position);
+				cellToCombine.combine(cell);
+				this.change_position = true;
+				continue;
+			}
+			
+			combineAndAddScore(cell, cellPointer);
+			position--;
+		}
+	}
+
+	private void recorrerYCombinarLeft(int f) {
+		int position = 0;
+		
+		for (int c = 0; c < matriz.get(f).size(); c++) {
+			boolean isFirstElement = c == 0;
+			
+			Cell cell = matriz.get(f).get(c);
+			
+			if (isFirstElement || cell.isEmpty())
+				continue;
+			
+			Cell cellPointer = matriz.get(f).get(position);
+			
+			if (cellPointer.isEmpty()) {
+				cellPointer.combine(cell);
+				this.change_position = true;
+				continue;
+			}
+			
+			if (cell.getNumber() != cellPointer.getNumber()) {
+				position++;
+				if (position == c)
+					continue;
+				
+				Cell cellToCombine = matriz.get(f).get(position);
+				cellToCombine.combine(cell);
+				this.change_position = true;
+				continue;
+			}
+			
+			combineAndAddScore(cell, cellPointer);
+			position++;
+		}
 	}
 	
-	public int getScore() {
-		return this.score.getValue();
+	private void recorrerYCombinarUp(int c) {
+		int position = 0;
+		
+		for (int f = 0; f < matriz.size(); f++) {
+			boolean isFirstElement = f == 0;
+			
+			Cell cell = matriz.get(f).get(c);
+			
+			if (isFirstElement || cell.isEmpty())
+				continue;
+			
+			Cell cellPointer = matriz.get(position).get(c);
+			
+			if (cellPointer.isEmpty()) {
+				cellPointer.combine(cell);
+				this.change_position = true;
+				continue;
+			}
+			
+			if (cell.getNumber() != cellPointer.getNumber()) {
+				position++;
+				if (position == f)
+					continue;
+				
+				Cell cellToCombine = matriz.get(position).get(c);
+				cellToCombine.combine(cell);
+				this.change_position = true;
+				continue;
+			}
+			
+			combineAndAddScore(cell, cellPointer);
+			position++;
+		}
 	}
-	
-	public boolean checkMaxValue(int value) {
-		return this.max_combination >= value;
+
+	private void recorrerYCombinarDown(int c) {
+		int position = matriz.size()-1;
+		
+		for (int f = matriz.size()-1; f >= 0; f--) {
+			boolean isFirstElement = f == matriz.size()-1;
+			
+			Cell cell = matriz.get(f).get(c);
+			
+			if (isFirstElement || cell.isEmpty())
+				continue;
+			
+			Cell cellPointer = matriz.get(position).get(c);
+			
+			if (cellPointer.isEmpty()) {
+				cellPointer.combine(cell);
+				this.change_position = true;
+				continue;
+			}
+			
+			if (cell.getNumber() != cellPointer.getNumber()) {
+				position--;
+				if (position == f)
+					continue;
+				
+				Cell cellToCombine = matriz.get(position).get(c);
+				cellToCombine.combine(cell);
+				this.change_position = true;
+				continue;
+			}
+			
+			combineAndAddScore(cell, cellPointer);
+			position--;
+		}
+	}
+
+	private void combineAndAddScore(Cell cell, Cell cellPointer) {
+		int points = cellPointer.combine(cell);
+		score.add(points);
+		this.change_position = true;
+		this.max_combination = points > this.max_combination ?  points : this.max_combination;
 	}
 }
