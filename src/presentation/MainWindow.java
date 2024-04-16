@@ -4,66 +4,41 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JSeparator;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Component;
-import java.awt.Panel;
 
-import javax.swing.JDialog;
-import javax.swing.JEditorPane;
 import java.awt.Button;
 import javax.swing.JPanel;
-import javax.swing.JLayeredPane;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
-import game.Board;
-import game.Cell;
 import game.Game;
 import game.Game2048;
 
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import java.awt.Dimension;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainWindow {
 
-	private JFrame frmProg;
-	private JTextField txtMejor;
-	private JTextField textField;
-	private JTextField textField_0;
-	private JLabel label_cell;
-	private JPanel empty_cell;
+	private JFrame mainFrame;
 	private JPanel panel;
 	private JLabel label_score;
-	private Button button;
 	private Game game;
 	private boolean showedLoseWindow;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					MainWindow window = new MainWindow();
-					window.frmProg.setVisible(true);
+					window.mainFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,192 +46,64 @@ public class MainWindow {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public MainWindow() {
 		game = new Game2048();
 		showedLoseWindow = false;
 		initialize(game);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize(Game game) {
+		loadMainFrame();
+		loadBoard();
+		loadPointsLabel();
+		loadLabelScore();
+		loadTitle();
+		loadNewGameButton();
 		
-		
-		frmProg = new JFrame();
-		frmProg.setAutoRequestFocus(false);
-
-		panel = updateBoard(game.getBoard());
-		frmProg.getContentPane().add(panel);
-	
-		
-		frmProg.getContentPane().addKeyListener(new KeyAdapter() {
+		mainFrame.getContentPane().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
-				if(showedLoseWindow) {
+
+				if (showedLoseWindow) {
 					return;
 				}
 
-				
-				if (e.getKeyCode() == 39) {		
-					frmProg.remove(panel);
+				if (e.getKeyCode() == 39) {
 					game.moveToRight();
-					repaint();
-					System.out.println("flecha derecha");
 				}
 
 				if (e.getKeyCode() == 40) {
-					frmProg.remove(panel);
 					game.moveToDwn();
-					repaint();
-					System.out.println("flecha abajo");
 				}
 
-
 				if (e.getKeyCode() == 37) {
-					frmProg.remove(panel);
 					game.moveToLeft();
-					repaint();
-					System.out.println("flecha izquierda");
-
 				}
 
 				if (e.getKeyCode() == 38) {
-					frmProg.remove(panel);
 					game.moveToUp();
-					repaint();
-					System.out.println("flecha up");
-
-				}
-				
-				
-				if(game.hasPlayerLose() && !game.hasPlayerWon()) {
-					System.out.println("Juego finalizado");
-					showedLoseWindow = true;
-					EndGameDialog dialog = new EndGameDialog(frmProg, "perdio");
-				    dialog.setLocationRelativeTo(frmProg);
-				    dialog.setVisible(true);
-
-				    // Después de que el diálogo se cierra, obtén el valor
-				    if(!dialog.accepted()) {
-				    	return;
-				    }
-
-					newGame();    
-					return;
-				}
-				
-				if(game.hasPlayerWon() && !game.hasPlayerLose()) {
-					System.out.println("Juego finalizado");
-					showedLoseWindow = true;
-					EndGameDialog dialog = new EndGameDialog(frmProg, "gano");
-				    dialog.setLocationRelativeTo(frmProg);
-				    dialog.setVisible(true);
-					
-				    // Después de que el diálogo se cierra, obtén el valor
-				    if(!dialog.accepted()) {
-				    	return;
-				    }
-
-					//newGame(); aca falta resumir la partida   
-					return;
-				}
-				
-				if(game.hasPlayerWon() && game.hasPlayerLose()) {
-					System.out.println("Juego finalizado");
-					showedLoseWindow = true;
-					EndGameDialog dialog = new EndGameDialog(frmProg, "ganoyperdio");
-				    dialog.setLocationRelativeTo(frmProg);
-				    dialog.setVisible(true);
-
-				    // Después de que el diálogo se cierra, obtén el valor
-				    if(!dialog.accepted()) {
-				    	return;
-				    }
-
-					newGame();    
-					return;
 				}
 
+				repaint();
+				checkGameStatus();
 			}
 		});
-
-		frmProg.getContentPane().setBackground(new Color(128, 128, 0));
-		frmProg.setTitle("prog");
-		frmProg.setResizable(false);
-		frmProg.setBounds(00, 00, 800, 600);
-		frmProg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmProg.getContentPane().setLayout(null);
 		
-		frmProg.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { frmProg.getContentPane(), panel }));
-
-		JTextField txtPuntos = new JTextField();
-		txtPuntos.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtPuntos.setBackground(new Color(192, 192, 192));
-		txtPuntos.setText("    Puntos");
-		txtPuntos.setBounds(663, 60, 86, 20);
-		frmProg.getContentPane().add(txtPuntos);
-		txtPuntos.setColumns(10);
-
-		label_score = new JLabel(String.valueOf(game.getScore()));
-		label_score.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		label_score.setHorizontalAlignment(SwingConstants.CENTER);
-		label_score.setBackground(new Color(98, 160, 234));
-		label_score.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		label_score.setBounds(663, 84, 86, 48);
-		frmProg.getContentPane().add(label_score);
-
-		JLabel lblNewLabel_2 = new JLabel("2048");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 55));
-		lblNewLabel_2.setBounds(282, 32, 143, 56);
-		frmProg.getContentPane().add(lblNewLabel_2);
-
-		textField = new JTextField();
-		textField.setBackground(new Color(64, 128, 128));
-		textField.setBounds(663, 60, 86, 72);
-		frmProg.getContentPane().add(textField);
-		textField.setColumns(10);
-
-		button = new Button("Nueva Partida");
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				newGame();
-			}
-		});
-		button.setBackground(new Color(192, 192, 192));
-		button.setFont(new Font("Dialog", Font.BOLD, 25));
-		button.setActionCommand("Nueva Partida");
-		button.setBounds(535, 17, 214, 37);
-		frmProg.getContentPane().add(button);
-
-	}
-	
-	void repaint(){
-
-		panel = updateBoard(game.getBoard());
-		frmProg.getContentPane().add(panel);
-		frmProg.repaint();
-		frmProg.getContentPane().requestFocus();
-		repaintScore();
 	}
 
-	void repaintScore() {
-		
+	void repaint() {
+		mainFrame.remove(panel);
+		loadBoard();
+		mainFrame.repaint();
+		mainFrame.getContentPane().requestFocus();
 		label_score.setText(String.valueOf(game.getScore()));
 	}
-	
-	JPanel updateBoard(List<List<Integer>> matriz){
-		
 
+	Component updateBoard(List<List<Integer>> matriz) {
 		JPanel panel = new JPanel();
 		panel.setBounds(100, 100, 500, 450);
 		panel.setLayout(null);
-		
+
 		int positionY = -50;
 
 		for (int i = 0; i < matriz.size(); i++) {
@@ -268,57 +115,168 @@ public class MainWindow {
 				int cellValue = matriz.get(i).get(j);
 
 				positionX += 103;
-				
+
+				JLabel label_cell = getLabelComponent();
+
 				if (cellValue != 0) {
-					label_cell = new JLabel(String.valueOf(cellValue));
-					label_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+					label_cell.setText(String.valueOf(cellValue));
 					label_cell.setBounds(positionX, positionY, 75, 75);
 					label_cell.setFont(generateCellFont(cellValue));
-					label_cell.setOpaque(true);
 					label_cell.setBackground(generateCellColor(cellValue));
 					label_cell.setHorizontalAlignment(SwingConstants.CENTER);
-
 					panel.add(label_cell);
-				}else {
-					empty_cell = new JPanel();
-					empty_cell.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-					empty_cell.setBounds(positionX, positionY, 75, 75);
-					empty_cell.setOpaque(true);
-					empty_cell.setBackground(new Color(98, 160, 234));
-					panel.add(empty_cell);
+				} else {
+					label_cell.setBounds(positionX, positionY, 75, 75);
+					label_cell.setBackground(new Color(98, 160, 234));
+					panel.add(label_cell);
 				}
 			}
 		}
-		
+
 		return panel;
 	}
-	
+
 	private Font generateCellFont(int cellValue) {
-		return new Font("Tahoma", Font.BOLD, 50 - (String.valueOf(cellValue).length()*6));
+		return new Font("Tahoma", Font.BOLD, 50 - (String.valueOf(cellValue).length() * 6));
 	}
-	
+
 	private Color generateCellColor(int cellValue) {
 		Color cellColor = null;
-		
+
 		if (cellValue <= 16) {
-			cellColor = new Color(Math.min(98+(cellValue*10), 255), 
-											Math.max(160-(cellValue*4), 0), 
-											Math.max(234-(cellValue*8), 0));	//de azul a rojo
-		}else if (cellValue <= 512){
-			cellColor = new Color(255-(cellValue/8), 
-					Math.min(cellValue*2, 255), 0);								//de rojo a amarillo
-		}else {
-			cellColor = new Color(Math.max(212-(cellValue/16), 0), 255, 0);		//de amarillo a verde
+			cellColor = new Color(Math.min(98 + (cellValue * 10), 255), Math.max(160 - (cellValue * 4), 0),
+					Math.max(234 - (cellValue * 8), 0)); // de azul a rojo
+		} else if (cellValue <= 512) {
+			cellColor = new Color(255 - (cellValue / 8), Math.min(cellValue * 2, 255), 0); // de rojo a amarillo
+		} else {
+			cellColor = new Color(Math.max(212 - (cellValue / 16), 0), 255, 0); // de amarillo a verde
 		}
-		
+
 		return cellColor;
 	}
-	
+
 	private void newGame() {
 		game.newGame();
 		showedLoseWindow = false;
-		frmProg.remove(panel);
 		repaint();
 	}
-	
+
+	private JLabel getLabelComponent() {
+		JLabel label = new JLabel();
+		label.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		label.setOpaque(true);
+		return label;
+	}
+
+	private void checkGameStatus() {
+
+		if (game.hasPlayerLose() && !game.hasPlayerWon()) {
+			showedLoseWindow = true;
+			EndGameDialog dialog = new EndGameDialog(mainFrame, "perdio");
+			dialog.setLocationRelativeTo(mainFrame);
+			dialog.setVisible(true);
+
+			if (!dialog.accepted()) {
+				return;
+			}
+			newGame();
+			return;
+		}
+
+		if (game.hasPlayerWon() && !game.hasPlayerLose()) {
+			if (game.wantPlayerContinue()) {
+				return;
+			}
+			showedLoseWindow = true;
+			EndGameDialog dialog = new EndGameDialog(mainFrame, "gano");
+			dialog.setLocationRelativeTo(mainFrame);
+			dialog.setVisible(true);
+
+			if (!dialog.accepted()) {
+				return;
+			}
+
+			game.continueGaming();
+			showedLoseWindow = false;
+			return;
+		}
+
+		if (game.hasPlayerWon() && game.hasPlayerLose()) {
+			showedLoseWindow = true;
+			EndGameDialog dialog = new EndGameDialog(mainFrame, "ganoyperdio");
+			dialog.setLocationRelativeTo(mainFrame);
+			dialog.setVisible(true);
+
+			if (!dialog.accepted()) {
+				return;
+			}
+
+			newGame();
+			return;
+		}
+
+	}
+
+	void loadMainFrame() {
+		mainFrame = new JFrame();
+		mainFrame.setAutoRequestFocus(false);
+		mainFrame.getContentPane().setBackground(new Color(128, 128, 0));
+		mainFrame.setTitle("Game 2048");
+		mainFrame.setResizable(false);
+		mainFrame.setBounds(00, 00, 800, 600);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.getContentPane().setLayout(null);
+		mainFrame.setFocusTraversalPolicy(
+				new FocusTraversalOnArray(new Component[] { mainFrame.getContentPane(), panel }));
+		
+	}
+
+	void loadPointsLabel() {
+		JTextField txtPuntos = new JTextField();
+		txtPuntos.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPuntos.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtPuntos.setBackground(new Color(192, 192, 192));
+		txtPuntos.setText("Puntos");
+		txtPuntos.setBounds(663, 66, 86, 20);
+		txtPuntos.setColumns(10);
+		mainFrame.getContentPane().add(txtPuntos);
+	}
+
+	void loadTitle() {
+		JLabel title = new JLabel("2048");
+		title.setFont(new Font("Tahoma", Font.BOLD, 55));
+		title.setBounds(282, 32, 143, 56);
+		mainFrame.getContentPane().add(title);
+	}
+
+	void loadBoard() {
+		panel = (JPanel) updateBoard(game.getBoard());
+		mainFrame.getContentPane().add(panel);
+	}
+
+	void loadNewGameButton() {
+		Button button = new Button("Nueva Partida");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				newGame();
+			}
+		});
+		button.setBackground(new Color(192, 192, 192));
+		button.setFont(new Font("Dialog", Font.BOLD, 25));
+		button.setActionCommand("Nueva Partida");
+		button.setBounds(535, 17, 214, 37);
+		mainFrame.getContentPane().add(button);
+	}
+
+	void loadLabelScore() {
+		label_score = new JLabel("0");
+		label_score.setOpaque(true);
+		label_score.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		label_score.setHorizontalAlignment(SwingConstants.CENTER);
+		label_score.setBackground(new Color(222, 221, 218));
+		label_score.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		label_score.setBounds(663, 84, 86, 48);
+		mainFrame.getContentPane().add(label_score);
+	}
 }

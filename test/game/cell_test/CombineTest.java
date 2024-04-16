@@ -67,28 +67,6 @@ public class CombineTest {
 	}
 
 	@Test
-	public void cantCombineWithACombinedCellTest() {
-		Cell combinedCell = CellObjectMother.createCombinedCell();
-		Cell cell = CellObjectMother.createNoCombinedCellValue2();
-
-		int actualValue = combinedCell.combine(cell);
-
-		int expected = 0;
-		assertEquals(expected, actualValue);
-	}
-
-	@Test
-	public void cantCombineWithACombinedCellInverseTest() {
-		Cell cell = CellObjectMother.createNoCombinedCellValue2();
-		Cell combinedCell = CellObjectMother.createCombinedCell();
-
-		int actualValue = cell.combine(combinedCell);
-
-		int expected = 0;
-		assertEquals(expected, actualValue);
-	}
-
-	@Test
 	public void cellSetValueToCeroAfterCombinedTest() {
 		Cell cellToCombine = CellObjectMother.createNoCombinedCellValue2();
 		Cell mainCell = CellObjectMother.createNoCombinedCellValue2();

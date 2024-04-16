@@ -5,14 +5,8 @@ import java.util.List;
 public class Game2048 implements Game {
 	
 	Board board = new Board();
+	boolean continue_game = false;
 	int WIN_POINTS = 2048;
-	
-	public Game2048() {
-//		board.getRow(0).set(0, new Cell(2,false));
-//		board.getRow(0).set(1, new Cell(2,false));
-	}
-	
-	
 	
 	@Override
 	public void moveToRight() {
@@ -54,18 +48,28 @@ public class Game2048 implements Game {
 
 	@Override
 	public boolean hasPlayerWon() {
-		return board.checkMaxValue(WIN_POINTS);
+			return board.checkMaxValue(WIN_POINTS);
 	}
 
 	@Override
 	public boolean hasPlayerLose() {
-		// TODO Auto-generated method stub
 		return board.noHayMasMovimientos();
 	}
 
 	@Override
 	public void newGame() {
 		board.restart();
+		this.continue_game = false;
+	}
+
+	@Override
+	public void continueGaming() {
+		this.continue_game = true;
+	}
+	
+	@Override
+	public boolean wantPlayerContinue() {
+		return this.continue_game;
 	}
 
 }

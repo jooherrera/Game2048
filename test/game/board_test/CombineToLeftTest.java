@@ -19,7 +19,7 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftValorYCerosSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
+		b.getRow(0).set(3, new Cell(2));
 		b.combineToLeft();
 		assertEquals(0, b.getScore());
 	}
@@ -27,8 +27,8 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftDosValoresIgualesSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
+		b.getRow(0).set(3, new Cell(2));
+		b.getRow(0).set(2, new Cell(2));
 		b.combineToLeft();
 		assertEquals(4,  b.getScore());
 	}
@@ -36,10 +36,10 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftCuatroValoresIgualesSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(0, new Cell(2,false));
+		b.getRow(0).set(3, new Cell(2));
+		b.getRow(0).set(2, new Cell(2));
+		b.getRow(0).set(1, new Cell(2));
+		b.getRow(0).set(0, new Cell(2));
 		b.combineToLeft();
 		assertEquals(8,  b.getScore());
 	}
@@ -47,8 +47,8 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftDosValoresDiferentesSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(4,false));
+		b.getRow(0).set(3, new Cell(2));
+		b.getRow(0).set(2, new Cell(4));
 		b.combineToLeft();
 		assertEquals(0,  b.getScore());
 	}
@@ -56,9 +56,9 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftDosIgualesUnoDiferenteSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(4,false));
+		b.getRow(0).set(3, new Cell(2));
+		b.getRow(0).set(2, new Cell(2));
+		b.getRow(0).set(1, new Cell(4));
 		b.combineToLeft();
 		assertEquals(4,  b.getScore());
 	}
@@ -66,7 +66,7 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftValorYCerosCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
+		b.getRow(0).set(3, new Cell(2));
 		
 		b.combineToLeft();
 
@@ -76,8 +76,8 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftDosValoresIgualesCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
+		b.getRow(0).set(3, new Cell(2));
+		b.getRow(0).set(2, new Cell(2));
 		
 		b.combineToLeft();
 
@@ -87,10 +87,10 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftCuatroValoresIgualesCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(0, new Cell(2,false));
+		b.getRow(0).set(3, new Cell(2));
+		b.getRow(0).set(2, new Cell(2));
+		b.getRow(0).set(1, new Cell(2));
+		b.getRow(0).set(0, new Cell(2));
 		
 		b.combineToLeft();
 
@@ -101,8 +101,8 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftDosValoresDiferentesCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(4,false));
+		b.getRow(0).set(3, new Cell(2));
+		b.getRow(0).set(2, new Cell(4));
 		
 		b.combineToLeft();
 
@@ -113,9 +113,9 @@ public class CombineToLeftTest {
 	@Test
 	public void combineLeftDosIgualesUnoDiferenteCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(3, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(4,false));
+		b.getRow(0).set(3, new Cell(2));
+		b.getRow(0).set(2, new Cell(2));
+		b.getRow(0).set(1, new Cell(4));
 		
 		b.combineToLeft();
 

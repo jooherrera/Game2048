@@ -16,8 +16,5 @@ public class CellObjectMother {
 		return Cell.create(4);
 	}
 
-	public static Cell createCombinedCell() {
-		return new Cell(2, true);
-	}
 
 }

@@ -1,7 +1,6 @@
 package presentation;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -37,17 +36,17 @@ public class EndGameDialog extends JDialog {
 	
 	private void createPopUp(String estado){
 		if(estado.equals("gano")){
-			String txt = "Felicidades, ganaste";
+			String txt = "Felicidades, ganaste!";
 			String txt2 = "¿Quieres seguir jugando?";
 			showGameOver(txt, txt2);
 		}
 		if(estado.equals("perdio")){
-			String txt = "Fin del juego";
+			String txt = "Fin del juego!";
 			String txt2 = "¿Quieres jugar de nuevo?";
 			showGameOver(txt, txt2);
 		}
 		if(estado.equals("ganoyperdio")){
-			String txt = "Ganaste y luego perdiste :(";
+			String txt = "Ya no tienes más movimientos :(";
 			String txt2 = "¿Quieres jugar de nuevo?";
 			showGameOver(txt, txt2);
 		}
@@ -83,7 +82,7 @@ public class EndGameDialog extends JDialog {
 		{
 			JLabel lblNewLabel = new JLabel(finDeJuego);
 			lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 16));
-			lblNewLabel.setBounds(100, 22, 205, 25);
+			lblNewLabel.setBounds(45, 22, 275, 25);
 			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			contentPanel.add(lblNewLabel);
 		}
