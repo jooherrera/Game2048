@@ -15,4 +15,6 @@ public interface Game {
 	List<List<Integer>> getBoard();
 	boolean hasPlayerWon();
 	boolean hasPlayerLose();
+	boolean wantPlayerContinue();
+	void continueGaming();
 }
