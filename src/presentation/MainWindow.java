@@ -59,6 +59,36 @@ public class MainWindow {
 		loadLabelScore();
 		loadTitle();
 		loadNewGameButton();
+		
+		mainFrame.getContentPane().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (showedLoseWindow) {
+					return;
+				}
+
+				if (e.getKeyCode() == 39) {
+					game.moveToRight();
+				}
+
+				if (e.getKeyCode() == 40) {
+					game.moveToDwn();
+				}
+
+				if (e.getKeyCode() == 37) {
+					game.moveToLeft();
+				}
+
+				if (e.getKeyCode() == 38) {
+					game.moveToUp();
+				}
+
+				repaint();
+				checkGameStatus();
+			}
+		});
+		
 	}
 
 	void repaint() {
@@ -198,34 +228,7 @@ public class MainWindow {
 		mainFrame.getContentPane().setLayout(null);
 		mainFrame.setFocusTraversalPolicy(
 				new FocusTraversalOnArray(new Component[] { mainFrame.getContentPane(), panel }));
-		mainFrame.getContentPane().addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-
-				if (showedLoseWindow) {
-					return;
-				}
-
-				if (e.getKeyCode() == 39) {
-					game.moveToRight();
-				}
-
-				if (e.getKeyCode() == 40) {
-					game.moveToDwn();
-				}
-
-				if (e.getKeyCode() == 37) {
-					game.moveToLeft();
-				}
-
-				if (e.getKeyCode() == 38) {
-					game.moveToUp();
-				}
-
-				repaint();
-				checkGameStatus();
-			}
-		});
+		
 	}
 
 	void loadPointsLabel() {

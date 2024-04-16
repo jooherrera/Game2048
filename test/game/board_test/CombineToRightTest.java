@@ -19,7 +19,7 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightValorYCerosSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
+		b.getRow(0).set(0, new Cell(2));
 		b.combineToRight();
 		assertEquals(0,b.getScore());
 	}
@@ -27,8 +27,8 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightDosValoresIgualesSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
+		b.getRow(0).set(0, new Cell(2));
+		b.getRow(0).set(1, new Cell(2));
 		b.combineToRight();
 		assertEquals(4, b.getScore());
 	}
@@ -36,10 +36,10 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightCuatroValoresIgualesSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
-		b.getRow(0).set(3, new Cell(2,false));
+		b.getRow(0).set(0, new Cell(2));
+		b.getRow(0).set(1, new Cell(2));
+		b.getRow(0).set(2, new Cell(2));
+		b.getRow(0).set(3, new Cell(2));
 		b.combineToRight();
 		assertEquals(8, b.getScore());
 	}
@@ -47,8 +47,8 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightDosValoresDiferentesSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(4,false));
+		b.getRow(0).set(0, new Cell(2));
+		b.getRow(0).set(1, new Cell(4));
 		b.combineToRight();
 		assertEquals(0, b.getScore());
 	}
@@ -56,9 +56,9 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightDosIgualesUnoDiferenteSumaTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(4,false));
+		b.getRow(0).set(0, new Cell(2));
+		b.getRow(0).set(1, new Cell(2));
+		b.getRow(0).set(2, new Cell(4));
 		b.combineToRight();
 		assertEquals(4, b.getScore());
 	}
@@ -66,7 +66,7 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightValorYCerosCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
+		b.getRow(0).set(0, new Cell(2));
 		
 		b.combineToRight();
 
@@ -76,8 +76,8 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightDosValoresIgualesCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
+		b.getRow(0).set(0, new Cell(2));
+		b.getRow(0).set(1, new Cell(2));
 		
 		b.combineToRight();
 		
@@ -87,10 +87,10 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightCuatroValoresIgualesCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(2,false));
-		b.getRow(0).set(3, new Cell(2,false));
+		b.getRow(0).set(0, new Cell(2));
+		b.getRow(0).set(1, new Cell(2));
+		b.getRow(0).set(2, new Cell(2));
+		b.getRow(0).set(3, new Cell(2));
 		
 		b.combineToRight();
 
@@ -101,8 +101,8 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightDosValoresDiferentesCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(4,false));
+		b.getRow(0).set(0, new Cell(2));
+		b.getRow(0).set(1, new Cell(4));
 		
 		b.combineToRight();
 
@@ -113,9 +113,9 @@ public class CombineToRightTest {
 	@Test
 	public void combineRightDosIgualesUnoDiferenteCellTest() {
 		Board b = new Board();
-		b.getRow(0).set(0, new Cell(2,false));
-		b.getRow(0).set(1, new Cell(2,false));
-		b.getRow(0).set(2, new Cell(4,false));
+		b.getRow(0).set(0, new Cell(2));
+		b.getRow(0).set(1, new Cell(2));
+		b.getRow(0).set(2, new Cell(4));
 		
 		b.combineToRight();
 
